@@ -1,5 +1,6 @@
-import map from './map';
-import rasterLayer from './rasterLayer';
+import slfgrMap from './slfgr/map';
+
+const map = new slfgrMap(); 
 
 function currentExtent(map) {
     return map.getView().calculateExtent()
@@ -8,6 +9,5 @@ function currentExtent(map) {
 const extentBtn = document.querySelector('.extent-btn');
 extentBtn.addEventListener('click', () => {
     const curExt = currentExtent(map);
-    rasterLayer.setExtent(curExt);
-    map.addLayer(rasterLayer);
+    console.log(curExt)
 });
