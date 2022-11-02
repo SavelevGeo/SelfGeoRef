@@ -18,7 +18,7 @@ class slgrfRaster {
     }
 
     async imageSize() {
-        let img = await this.getDimensions(this.path);
+        let img = await this.getDimensions();
         return [img.width, img.height]
     }
 
