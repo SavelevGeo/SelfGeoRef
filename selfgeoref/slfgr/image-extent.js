@@ -1,7 +1,7 @@
 function imgExtForMapExt (
     imgDims, mapExt
   ) {
-    let imgExtX, imgExtY
+    let imgExtX, imgExtY;
     
     const imgWidth_px = imgDims[0];
     const imgHeight_px = imgDims[1];

@@ -4,12 +4,7 @@ import slgrfRaster from './slfgr/Raster';
 const map = new slfgrMap(); 
 
 const raster = new slgrfRaster('./data/Diamante_1_map_area.jpg');
-let rasterLayer = raster.fitToExtent(
-    [-3913009.9765944895, 771787.351525859,
-     -3000376.813142625, 1442540.1658467501]
-);
-
-map.addLayer(rasterLayer);
+let rasterLayer;
 
 const extentBtn = document.querySelector('.extent-btn');
 extentBtn.addEventListener('click', () => {
@@ -18,6 +13,4 @@ extentBtn.addEventListener('click', () => {
     map.removeLayer(rasterLayer);
     rasterLayer = raster.fitToExtent(curExt);
     map.addLayer(rasterLayer);
-
-    console.log(raster.size);
 });
