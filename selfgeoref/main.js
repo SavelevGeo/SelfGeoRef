@@ -13,4 +13,6 @@ extentBtn.addEventListener('click', () => {
     map.removeLayer(rasterLayer);
     rasterLayer = raster.fitToExtent(curExt);
     map.addLayer(rasterLayer);
+
+    console.log(curExt);
 });
