@@ -12,12 +12,12 @@ let rasterLayer = raster.fitToExtent(
 map.addLayer(rasterLayer);
 
 const extentBtn = document.querySelector('.extent-btn');
-extentBtn.addEventListener('click', async () => {
+extentBtn.addEventListener('click', () => {
     const curExt = map.getView().calculateExtent();
 
     map.removeLayer(rasterLayer);
     rasterLayer = raster.fitToExtent(curExt);
     map.addLayer(rasterLayer);
 
-    console.log(await raster.size);
+    console.log(raster.size);
 });
