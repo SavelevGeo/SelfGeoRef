@@ -1,5 +1,5 @@
 import slfgrMap from './slfgr/Map';
-import slgrfRaster from './slfgr/ProjectRasterLayer';
+import slgrfRaster from './slfgr/Raster';
 
 const map = new slfgrMap(); 
 
