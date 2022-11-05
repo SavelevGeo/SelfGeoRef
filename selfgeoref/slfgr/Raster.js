@@ -9,7 +9,6 @@ class slgrfRaster {
         this.HTMLImage().then(img =>
             this.size = [img.width, img.height]
         );
-        
     }
 
     HTMLImage() {
@@ -30,6 +29,10 @@ class slgrfRaster {
                 imageExtent: imgExtForMapExt(this.size, mapExtent)
             })
         })
+    }
+
+    static fromImage(path) {
+        return path
     }
 }
 
