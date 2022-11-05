@@ -6,33 +6,26 @@ class slgrfRaster {
     constructor (path, crs = 'EPSG:3857') {
         this.path = path;
         this.crs = crs;
-        this.HTMLImage().then(img =>
-            this.size = [img.width, img.height]
-        );
     }
 
-    HTMLImage() {
-        return new Promise((resolve, reject) => {
-            let img = new Image();
-            img.onload = () => resolve(img);
-            img.onerror = () => reject();
-            img.src = this.path;
-        })
-    }
-
-    fitToExtent(mapExtent) {
+    fitToExtent(imgSize, mapExtent) {
         return new ImageLayer({
             title: "Diamante_1_map_area",
             source: new Static({
                 url: this.path,
                 projection: this.crs,
-                imageExtent: imgExtForMapExt(this.size, mapExtent)
+                imageExtent: imgExtForMapExt(imgSize, mapExtent)
             })
         })
     }
 
-    static fromImage(path) {
-        return path
+    static HTMLImage(path) {
+        return new Promise((resolve, reject) => {
+            let img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject();
+            img.src = path;
+        })
     }
 }
 
