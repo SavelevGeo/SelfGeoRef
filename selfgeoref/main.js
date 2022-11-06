@@ -3,14 +3,14 @@ import slgrfRaster from './slfgr/Raster';
 
 const map = new slfgrMap(); 
 
-const raster = new slgrfRaster('./data/Diamante_1_map_area.jpg');
-let rasterLayer;
-
-const img = slgrfRaster.HTMLImage('./data/Diamante_1_map_area.jpg')
-img.then(img =>
-    map.addLayer(raster.fitToExtent([img.width, img.height],
-            map.getView().calculateExtent()
-        ))
+const img = slgrfRaster.HTMLImage('./data/Diamante_1_map_area.jpg');
+img.then(img => {
+        const raster = new slgrfRaster(img);
+        
+        map.addLayer(raster.fitToExtent(
+                map.getView().calculateExtent()
+        ));
+    }
 );
 
 // const extentBtn = document.querySelector('.extent-btn');
