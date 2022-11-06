@@ -4,6 +4,7 @@ html, body {
   margin: 0;
   height: 100%;
 }
+
 #map {
   position: absolute;
   top: 0;
@@ -17,4 +18,5 @@ html, body {
     right: 0;
     width: 50px;
     margin: 0 auto;
+    white-space: normal;
 }

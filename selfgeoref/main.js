@@ -2,24 +2,19 @@ import slfgrMap from './slfgr/Map';
 import slgrfRaster from './slfgr/Raster';
 
 const map = new slfgrMap(); 
+const extentBtn = document.querySelector('.extent-btn');
 
-const img = slgrfRaster.HTMLImage('./data/Diamante_1_map_area.jpg');
-img.then(img => {
+slgrfRaster.HTMLImage('./data/Diamante_1_map_area.jpg')
+    .then(img => {
         const raster = new slgrfRaster(img);
+        let rasterLayer = raster.fitToExtent(map.getView().calculateExtent());
+        map.addLayer(rasterLayer);
         
-        map.addLayer(raster.fitToExtent(
-                map.getView().calculateExtent()
-        ));
+        extentBtn.addEventListener('click', () => {
+            map.removeLayer(rasterLayer);
+
+            rasterLayer = raster.fitToExtent(map.getView().calculateExtent());
+            map.addLayer(rasterLayer);
+        });
     }
 );
-
-// const extentBtn = document.querySelector('.extent-btn');
-// extentBtn.addEventListener('click', () => {
-//     const curExt = map.getView().calculateExtent();
-
-//     map.removeLayer(rasterLayer);
-//     rasterLayer = raster.fitToExtent(curExt);
-//     map.addLayer(rasterLayer);
-
-//     console.log(curExt);
-// });
