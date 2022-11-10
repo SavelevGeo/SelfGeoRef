@@ -3,6 +3,9 @@ import {Map, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 
+import 'ol-layerswitcher/dist/ol-layerswitcher.css';
+import LayerSwitcher from 'ol-layerswitcher';
+
 class slfgrMap extends Map {
     constructor() {
         super({
@@ -17,6 +20,8 @@ class slfgrMap extends Map {
                   zoom: 2
             })
         });
+        
+        this.addControl(new LayerSwitcher());
     }
 }
 

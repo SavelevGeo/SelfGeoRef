@@ -18,7 +18,8 @@ class slgrfRaster {
                     [this.img.width, this.img.height],
                     mapExtent
                 )
-            })
+            }),
+            opacity: 0.7
         })
     }
 
