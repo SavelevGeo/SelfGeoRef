@@ -1,7 +1,29 @@
 import slfgrMap from './slfgr/Map';
 import slgrfRaster from './slfgr/Raster';
 
-const map = new slfgrMap(); 
+import GeoTIFF from 'ol/source/GeoTIFF';
+import TileLayer from 'ol/layer/WebGLTile';
+
+const map = new slfgrMap();
+
+fetch('./data/random.tif')
+    .then((response) => response.blob())
+    .then((blob) => {
+        const source = new GeoTIFF({
+            sources: [
+                {
+                    blob: blob,
+                },
+            ],
+        });
+
+        const gtiff = new TileLayer({
+            source: source,
+        });
+
+        map.addLayer(gtiff)
+    })
+
 const extentBtn = document.querySelector('.extent-btn');
 
 slgrfRaster.HTMLImage('./data/Diamante_1_map_area.jpg')
