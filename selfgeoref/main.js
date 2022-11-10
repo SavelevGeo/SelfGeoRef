@@ -18,7 +18,8 @@ fetch('./data/random.tif')
         });
 
         const gtiff = new TileLayer({
-            source: source,
+            title: 'random raster',
+            source: source
         });
 
         map.addLayer(gtiff)
