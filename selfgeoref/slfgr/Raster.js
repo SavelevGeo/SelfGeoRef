@@ -2,7 +2,7 @@ import ImageLayer from 'ol/layer/Image';
 import Static from 'ol/source/ImageStatic';
 import imgExtForMapExt from './image-extent';
 
-class slgrfRaster {
+class slfgrRaster {
     constructor (img, crs = 'EPSG:3857') {
         this.img = img;
         this.crs = crs;
@@ -23,14 +23,14 @@ class slgrfRaster {
         })
     }
 
-    static HTMLImage(path) {
+    static fromPath(path) {
         return new Promise((resolve, reject) => {
             let img = new Image();
-            img.onload = () => resolve(img);
+            img.onload = () => resolve(new this(img));
             img.onerror = () => reject();
             img.src = path;
         })
     }
 }
 
-export default slgrfRaster
+export default slfgrRaster
