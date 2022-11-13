@@ -2,6 +2,7 @@ import slfgrMap from './slfgr/Map';
 import slfgrRaster from './slfgr/Raster';
 import slfgrGeoRaster from './slfgr/GeoRaster';
 
+import slfgrGeoRef from './slfgr/GeoRef';
 
 const extentBtn = document.querySelector('.extent-btn');
 
@@ -22,4 +23,7 @@ slfgrRaster.fromPath('./data/Diamante_1_map_area.jpg')
 );
 
 slfgrGeoRaster.fromPath('./data/random.tif')
-    .then(gtiff => map.addLayer(gtiff) );
+    .then(gtiff => map.addLayer(gtiff));
+
+slfgrGeoRef.init()
+    .then(geoRef => console.log(geoRef));
