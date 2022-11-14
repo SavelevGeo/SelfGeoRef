@@ -25,5 +25,11 @@ slfgrRaster.fromPath('./data/Diamante_1_map_area.jpg')
 slfgrGeoRaster.fromPath('./data/random.tif')
     .then(gtiff => map.addLayer(gtiff));
 
+slfgrGeoRaster.fromPath('./data/Diamante_1_3857.tif')
+    .then(gtiff => map.addLayer(gtiff));
+
 slfgrGeoRef.init()
     .then(geoRef => console.log(geoRef));
+
+const gref = new slfgrGeoRef();
+console.log(gref.byTable('./data/Diamante_1_map_area.jpg'))

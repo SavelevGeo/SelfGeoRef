@@ -8,7 +8,9 @@ class slfgrGeoRef {
         this.gdal = gdal;
     }
 
-    // byTable(table)
+    byTable(file) {
+        return file
+    }
 
     static init() {
         const paths = {

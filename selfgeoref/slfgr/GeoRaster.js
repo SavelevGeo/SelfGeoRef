@@ -13,7 +13,7 @@ class slfgrGeoRaster {
 
                     resolve(
                         new TileLayer({
-                            title: 'random raster',
+                            title: path,
                             source: source
                         })
                     );
