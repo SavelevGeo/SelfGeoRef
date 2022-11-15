@@ -22,10 +22,7 @@ slfgrRaster.fromPath('./data/Diamante_1_map_area.jpg')
     }
 );
 
-slfgrGeoRaster.fromPath('./data/random.tif')
-    .then(gtiff => map.addLayer(gtiff));
-
-slfgrGeoRaster.fromPath('./data/Diamante_1_3857.tif')
+slfgrGeoRaster.fromPath('./data/Diamante_3857_qgis.tif')
     .then(gtiff => map.addLayer(gtiff));
 
 slfgrGeoRef.init()
