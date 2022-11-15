@@ -22,8 +22,16 @@ slfgrRaster.fromPath('./data/Diamante_1_map_area.jpg')
     }
 );
 
+slfgrGeoRaster.fromPath('./data/Diamante_org_cog_tps.tif')
+    .then(gtiff => {
+        console.log(gtiff);
+        map.addLayer(gtiff);
+        }
+    );
+
+
 slfgrGeoRaster.fromPath('./data/Diamante_3857_qgis.tif')
-    .then(gtiff => map.addLayer(gtiff));
+    .then(gtiff => console.log(gtiff));
 
 slfgrGeoRef.init()
     .then(geoRef => console.log(geoRef));
