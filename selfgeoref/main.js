@@ -1,8 +1,9 @@
 import slfgrMap from './slfgr/Map';
 import slfgrRaster from './slfgr/Raster';
 import slfgrGeoRaster from './slfgr/GeoRaster';
-
 import slfgrGeoRef from './slfgr/GeoRef';
+
+import Control from 'ol/control/Control';
 
 const extentBtn = document.querySelector('.extent-btn');
 const map = new slfgrMap();
@@ -28,25 +29,30 @@ const file = new File(
 
 const geoRef = await slfgrGeoRef.init();
 const img_gdal = await geoRef.byTable(file);
-console.log(img_gdal);
 
 const gcps = (await (await fetch('./data/gcps.txt')).text()).split(' ');
 const options = gcps.concat(['-of', 'GTiff', '-a_srs', 'EPSG:3857']);
 
-geoRef.Gdal.gdal_translate(img_gdal, options)
-    .then( async () => {
-        const files = await geoRef.Gdal.getOutputFiles();
-        const filePath = files[0].path;
-        const fileBytes = await geoRef.Gdal.getFileBytes(filePath);
-        const fileName = filePath.split('/').pop();
-        saveAs(fileBytes, fileName);
+const translated = (await geoRef.Gdal.gdal_translate(img_gdal, options))['local'];
 
-        function saveAs(fileBytes, fileName) {
-            const blob = new Blob([fileBytes]);
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = fileName;
-            link.click();
-        }
-    }
-);
+const warped = (await geoRef.Gdal.gdalwarp(
+    ((await geoRef.Gdal.open(translated)).datasets[0]),
+    ['-tps', '-of', 'GTiff']
+))['local'];
+console.log(warped);
+
+const fileBytes = await geoRef.Gdal.getFileBytes(warped);
+const fileName = warped.split('/').pop();
+saveAs(fileBytes, fileName);
+
+function saveAs(fileBytes, fileName) {
+    const blob = new Blob([fileBytes]);
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.textContent = 'Download raster';
+    link.style.position = 'absolute';
+    link.style.left = '50px';
+    
+    map.addControl(new Control({element: link}));
+}
