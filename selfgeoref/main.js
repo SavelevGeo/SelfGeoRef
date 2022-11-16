@@ -47,6 +47,8 @@ saveAs(fileBytes, fileName);
 
 function saveAs(fileBytes, fileName) {
     const blob = new Blob([fileBytes]);
+    map.addLayer(slfgrGeoRaster.fromBlob(blob, fileName));
+
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = fileName;
