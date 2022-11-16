@@ -8,8 +8,8 @@ class slfgrGeoRef {
         this.Gdal = gdal;
     }
 
-    byTable(file) {
-        return file
+    async byTable(file) {
+        return (await this.Gdal.open(file)).datasets[0]
     }
 
     static init() {

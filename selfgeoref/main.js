@@ -22,9 +22,17 @@ const gtiff = await slfgrGeoRaster.fromPath('./data/Diamante_org_cog_tps.tif');
 map.addLayer(gtiff);
 
 const imgPath = './data/Diamante_1_map_area.jpg';
-const fileData = await fetch(imgPath);
-const file = new File([await fileData.blob()], imgPath.split('/').at(-1));
+const file = new File(
+    [await (await fetch(imgPath)).blob()],
+    imgPath.split('/').at(-1)
+);
 
 const geoRef = await slfgrGeoRef.init();
-const result = await geoRef.Gdal.open(file);
-console.log(result);
+const img_gdal = await geoRef.byTable(file);
+console.log(img_gdal);
+
+const gcps = (await (await fetch('./data/gcps.txt')).text()).split(' ');
+const options = gcps.concat(['-of', 'GTiff', '-a_srs', 'EPSG:3857']);
+
+const translateResult = await geoRef.Gdal.gdal_translate(img_gdal, options);
+console.log(translateResult);
