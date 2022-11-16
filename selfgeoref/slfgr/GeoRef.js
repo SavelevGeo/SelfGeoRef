@@ -5,7 +5,7 @@ import initGdalJs from 'gdal3.js';
 
 class slfgrGeoRef {
     constructor(gdal) {
-        this.gdal = gdal;
+        this.Gdal = gdal;
     }
 
     byTable(file) {

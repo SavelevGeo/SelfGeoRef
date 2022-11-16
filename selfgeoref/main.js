@@ -8,33 +8,23 @@ const extentBtn = document.querySelector('.extent-btn');
 
 const map = new slfgrMap();
 
-slfgrRaster.fromPath('./data/Diamante_1_map_area.jpg')
-    .then(img => {
-        let rasterLayer = img.fitToExtent(map.getView().calculateExtent());
-        map.addLayer(rasterLayer);
-        
-        extentBtn.addEventListener('click', () => {
-            map.removeLayer(rasterLayer);
+const img = await slfgrRaster.fromPath('./data/Diamante_1_map_area.jpg');
+let rasterLayer = img.fitToExtent(map.getView().calculateExtent());
+map.addLayer(rasterLayer);
 
-            rasterLayer = img.fitToExtent(map.getView().calculateExtent());
-            map.addLayer(rasterLayer);
-        });
-    }
-);
+extentBtn.addEventListener('click', () => {
+    map.removeLayer(rasterLayer);
+    rasterLayer = img.fitToExtent(map.getView().calculateExtent());
+    map.addLayer(rasterLayer);
+})
 
-slfgrGeoRaster.fromPath('./data/Diamante_org_cog_tps.tif')
-    .then(gtiff => {
-        console.log(gtiff);
-        map.addLayer(gtiff);
-        }
-    );
+const gtiff = await slfgrGeoRaster.fromPath('./data/Diamante_org_cog_tps.tif');
+map.addLayer(gtiff);
 
+const imgPath = './data/Diamante_1_map_area.jpg';
+const fileData = await fetch(imgPath);
+const file = new File([await fileData.blob()], imgPath.split('/').at(-1));
 
-slfgrGeoRaster.fromPath('./data/Diamante_3857_qgis.tif')
-    .then(gtiff => console.log(gtiff));
-
-slfgrGeoRef.init()
-    .then(geoRef => console.log(geoRef));
-
-const gref = new slfgrGeoRef();
-console.log(gref.byTable('./data/Diamante_1_map_area.jpg'))
+const geoRef = await slfgrGeoRef.init();
+const result = await geoRef.Gdal.open(file);
+console.log(result);
