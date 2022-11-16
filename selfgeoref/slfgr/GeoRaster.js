@@ -7,17 +7,17 @@ class slfgrGeoRaster {
             fetch(path)
                 .then(response => response.blob())
                 .then(blob => {
-                    const source = new GeoTIFF({
-                        sources: [{ blob: blob }]
-                    });
-
-                    resolve(
-                        new TileLayer({
-                            title: path,
-                            source: source
-                        })
-                    );
+                    resolve(this.fromBlob(blob, path));
                 })
+        })
+    }
+
+    static fromBlob(blob, layerName) {
+        return new TileLayer({
+            title: layerName,
+            source: new GeoTIFF({
+                sources: [{ blob: blob}]
+            })
         })
     }
 }
