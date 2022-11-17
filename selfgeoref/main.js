@@ -30,9 +30,10 @@ uploadBtn.addEventListener('change', function() {
                 map.addLayer(rasterLayer);
             })
 
+            console.log('georef started');
             const img_gdal = await geoRef.byTable(imgFile);
 
-            const gcps = (await (await fetch('./data/gcps.txt')).text()).split(' ');
+            const gcps = (await (await fetch('./data/gcps_ny.txt')).text()).split(' ');
             const options = gcps.concat(['-of', 'GTiff', '-a_srs', 'EPSG:3857']);
 
             const translated = (await geoRef.Gdal.gdal_translate(img_gdal, options))['local'];
