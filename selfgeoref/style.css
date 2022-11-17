@@ -12,6 +12,22 @@ html, body {
   width: 100%;
 }
 
+.upload-btn {
+  position: absolute;
+  z-index: 1;
+  left: 50px;
+
+  border-radius: 2px;
+  background-color: #f0f0f0;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+input[type="file"] {
+  display: none;
+}
+
 .extent-btn {
     position: absolute;
     left: 0;

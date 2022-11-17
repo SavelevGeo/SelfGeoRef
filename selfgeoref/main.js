@@ -5,21 +5,34 @@ import slfgrGeoRef from './slfgr/GeoRef';
 
 import Control from 'ol/control/Control';
 
-const extentBtn = document.querySelector('.extent-btn');
 const map = new slfgrMap();
 
-const img = await slfgrRaster.fromPath('./data/Diamante_1_map_area.jpg');
-let rasterLayer = img.fitToExtent(map.getView().calculateExtent());
-map.addLayer(rasterLayer);
+const uploadBtn = document.querySelector('.upload-btn > input');
+uploadBtn.addEventListener('change', function() {
+    const imgFile = this.files[0];
+    const img = document.createElement("img");
+    img.file = imgFile;
 
-extentBtn.addEventListener('click', () => {
-    map.removeLayer(rasterLayer);
-    rasterLayer = img.fitToExtent(map.getView().calculateExtent());
-    map.addLayer(rasterLayer);
-})
+    const reader = new FileReader();
+    reader.readAsDataURL(imgFile);
+    reader.onload = (e) => {
+        img.src = e.target.result;
+        img.onload = () => {
+            const raster = new slfgrRaster(img);
+            let rasterLayer = raster.fitToExtent(map.getView().calculateExtent());
+            map.addLayer(rasterLayer);
 
-const gtiff = await slfgrGeoRaster.fromPath('./data/Diamante_org_cog_tps.tif');
-map.addLayer(gtiff);
+            extentBtn.addEventListener('click', () => {
+                map.removeLayer(rasterLayer);
+                rasterLayer = raster.fitToExtent(map.getView().calculateExtent());
+                map.addLayer(rasterLayer);
+            })
+        };
+    };
+});
+
+const extentBtn = document.querySelector('.extent-btn');
+map.addControl(new Control({element: extentBtn}));
 
 const imgPath = './data/Diamante_1_map_area.jpg';
 const file = new File(
@@ -54,7 +67,7 @@ function saveAs(fileBytes, fileName) {
     link.download = fileName;
     link.textContent = 'Download raster';
     link.style.position = 'absolute';
-    link.style.left = '50px';
+    link.style.right = '50px';
     
     map.addControl(new Control({element: link}));
 }
