@@ -12,6 +12,8 @@ map.addControl(new Control({element: extentBtn}));
 const uploadBtn = document.querySelector('.upload-btn > input');
 const geoRef = await slfgrGeoRef.init();
 uploadBtn.addEventListener('change', function() {
+    console.log('image loading...');
+
     const imgFile = this.files[0];
     const img = document.createElement("img");
     img.file = imgFile;
@@ -21,8 +23,9 @@ uploadBtn.addEventListener('change', function() {
     reader.onload = (e) => {
         img.src = e.target.result;
         img.onload = async () => {
-            const raster = new slfgrRaster(img);
+            console.log('image loaded');
 
+            const raster = new slfgrRaster(img);
             let rasterLayer;
             extentBtn.addEventListener('click', () => {
                 map.removeLayer(rasterLayer);
@@ -37,7 +40,8 @@ uploadBtn.addEventListener('change', function() {
             const options = gcps.concat(['-of', 'GTiff', '-a_srs', 'EPSG:3857']);
 
             const translated = (await geoRef.Gdal.gdal_translate(img_gdal, options))['local'];
-
+            console.log('translation finished, starting wrapping');
+            
             const warped = (await geoRef.Gdal.gdalwarp(
                 ((await geoRef.Gdal.open(translated)).datasets[0]),
                 ['-tps', '-of', 'GTiff']
@@ -47,6 +51,8 @@ uploadBtn.addEventListener('change', function() {
             const fileBytes = await geoRef.Gdal.getFileBytes(warped);
             const fileName = warped.split('/').pop();
             saveAs(fileBytes, fileName);
+            console.log('georef finshed');
+            
 
             function saveAs(fileBytes, fileName) {
                 const blob = new Blob([fileBytes]);
