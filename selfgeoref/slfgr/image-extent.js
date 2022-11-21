@@ -10,7 +10,7 @@ function imgExtForMapExt (
     const mapExtX = [mapExt[0], mapExt[2]];
     const mapExtY = [mapExt[1], mapExt[3]];
     
-    if (landscape) {
+    if (true) {
       //image horizontally fits map
       imgExtX = mapExtX;
       
