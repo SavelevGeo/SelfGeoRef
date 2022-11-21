@@ -9,6 +9,7 @@ const map = new slfgrMap();
 const extentBtn = document.querySelector('.extent-btn');
 map.addControl(new Control({element: extentBtn}));
 
+//georef raster from upload
 const uploadBtn = document.querySelector('.upload-btn > input');
 const geoRef = await slfgrGeoRef.init();
 uploadBtn.addEventListener('change', function() {
@@ -37,11 +38,11 @@ uploadBtn.addEventListener('change', function() {
             const img_gdal = await geoRef.byTable(imgFile);
 
             const gcps = (await (await fetch('./data/gcps_ny.txt')).text()).split(' ');
-            const options = gcps.concat(['-of', 'GTiff', '-a_srs', 'EPSG:3857']);
+            const options = gcps.concat(['-of', 'COG', '-a_srs', 'EPSG:3857']);
 
             const translated = (await geoRef.Gdal.gdal_translate(img_gdal, options))['local'];
             console.log('translation finished, starting wrapping');
-            
+
             const warped = (await geoRef.Gdal.gdalwarp(
                 ((await geoRef.Gdal.open(translated)).datasets[0]),
                 ['-tps', '-of', 'GTiff']
@@ -56,7 +57,7 @@ uploadBtn.addEventListener('change', function() {
 
             function saveAs(fileBytes, fileName) {
                 const blob = new Blob([fileBytes]);
-                map.addLayer(slfgrGeoRaster.fromBlob(blob, fileName));
+                map.addLayer(slfgrGeoRaster.fromBlob(blob, fileName).layer);
 
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
