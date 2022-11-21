@@ -38,14 +38,14 @@ uploadBtn.addEventListener('change', function() {
             const img_gdal = await geoRef.byTable(imgFile);
 
             const gcps = (await (await fetch('./data/gcps_ny.txt')).text()).split(' ');
-            const options = gcps.concat(['-of', 'COG', '-a_srs', 'EPSG:3857']);
+            const options = gcps.concat(['-of', 'GTiff', '-a_srs', 'EPSG:3857']);
 
             const translated = (await geoRef.Gdal.gdal_translate(img_gdal, options))['local'];
             console.log('translation finished, starting wrapping');
 
             const warped = (await geoRef.Gdal.gdalwarp(
                 ((await geoRef.Gdal.open(translated)).datasets[0]),
-                ['-tps', '-of', 'GTiff']
+                ['-tps', '-of', 'COG']
             ))['local'];
             console.log(warped);
 
