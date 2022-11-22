@@ -8,8 +8,20 @@ class slfgrGeoRef {
         this.Gdal = gdal;
     }
 
-    async byTable(file) {
-        return (await this.Gdal.open(file)).datasets[0]
+    async byTable(raster,  gcps) {
+        const img_gdal = (await this.Gdal.open(raster.img.file)).datasets[0];
+        const options = gcps.concat(['-of', 'GTiff', '-a_srs', raster.crs]);
+
+        const translated = (await this.Gdal.gdal_translate(
+            img_gdal, options
+        ))['local'];
+
+        const warped = (await this.Gdal.gdalwarp(
+            ((await this.Gdal.open(translated)).datasets[0]),
+            ['-tps', '-of', 'COG']
+        ))['local'];
+
+        return warped
     }
 
     static init() {

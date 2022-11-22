@@ -16,12 +16,11 @@ uploadBtn.addEventListener('change', function() {
     const startTime = Date.now();
     console.log('image loading...');
 
-    const imgFile = this.files[0];
-    const img = document.createElement("img");
-    img.file = imgFile;
+    const img = new Image();
+    img.file = this.files[0];
 
     const reader = new FileReader();
-    reader.readAsDataURL(imgFile);
+    reader.readAsDataURL(img.file);
     reader.onload = (e) => {
         img.src = e.target.result;
         img.onload = async () => {
@@ -31,27 +30,18 @@ uploadBtn.addEventListener('change', function() {
             let rasterLayer;
             extentBtn.addEventListener('click', () => {
                 map.removeLayer(rasterLayer);
-                rasterLayer = raster.fitToExtent(map.getView().calculateExtent());
+
+                rasterLayer = raster.fitToExtent(
+                    map.getView().calculateExtent()
+                );
                 map.addLayer(rasterLayer);
-            })
+            });
 
             console.log( Date.now() - startTime , 'georef started');
-            const img_gdal = await geoRef.byTable(imgFile);
+            const gcps = (await (await fetch('./data/gcps.txt'))
+                .text()).split(' ');
 
-            const gcps = (await (await fetch('./data/gcps_ny.txt')).text()).split(' ');
-            const options = gcps.concat(['-of', 'GTiff', '-a_srs', 'EPSG:3857']);
-
-            const translated = (await geoRef.Gdal.gdal_translate(img_gdal, options))['local'];
-            console.log(
-                Date.now() - startTime,
-                'translation finished, starting wrapping'
-            );
-
-            const warped = (await geoRef.Gdal.gdalwarp(
-                ((await geoRef.Gdal.open(translated)).datasets[0]),
-                ['-tps', '-of', 'COG']
-            ))['local'];
-            console.log(warped);
+            const warped = await geoRef.byTable(raster, gcps);
 
             const fileBytes = await geoRef.Gdal.getFileBytes(warped);
             const fileName = warped.split('/').pop();
