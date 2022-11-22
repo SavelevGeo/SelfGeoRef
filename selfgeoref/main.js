@@ -28,6 +28,7 @@ uploadBtn.addEventListener('change', function() {
 
             const raster = new slfgrRaster(img);
             let rasterLayer;
+            extentBtn.disabled = false;
             extentBtn.addEventListener('click', () => {
                 map.removeLayer(rasterLayer);
 
