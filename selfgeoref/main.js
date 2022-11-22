@@ -5,7 +5,6 @@ import slfgrGeoRef from './slfgr/GeoRef';
 import Control from 'ol/control/Control';
 
 const map = new slfgrMap();
-console.log(map.gcpLayer)
 
 const extentBtn = document.querySelector('.extent-btn');
 map.addControl(new Control({element: extentBtn}));
@@ -36,11 +35,11 @@ uploadBtn.addEventListener('change', function() {
                 rasterLayer = raster.fitToExtent(
                     map.getView().calculateExtent()
                 );
-                map.addLayer(rasterLayer);
+                map.getLayers().insertAt(1, rasterLayer);
             });
 
             console.log( Date.now() - startTime , 'georef started');
-            const gcps = (await (await fetch('./data/gcps_ny.txt'))
+            const gcps = (await (await fetch('./data/gcps.txt'))
                 .text()).split(' ');
 
             const geoRaster = await geoRef.byTable(raster, gcps);

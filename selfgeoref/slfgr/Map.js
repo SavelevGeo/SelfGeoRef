@@ -13,16 +13,15 @@ class slfgrMap extends Map {
         title: 'GCPs',
         source: this.gcpSource,
         style: {
-          'circle-stroke-color': 'grey',
+          'circle-stroke-color': '#484848',
           'circle-stroke-width': 2,
           'circle-radius': 5,
           'circle-fill-color': 'transparent',
         },
     });
-    gcpDraw = new Draw ({
-        source: this.gcpSource,
-        type: 'Point'
-    })
+    gcpDraw = new Draw ({ source: this.gcpSource, type: 'Point' });
+    gcpModify = new Modify({ source: this.gcpSource});
+    gcpSnap = new Snap({ source: this.gcpSource });
 
     constructor() {
         super({
@@ -34,6 +33,8 @@ class slfgrMap extends Map {
         this.addControl(new LayerSwitcher());
         this.addLayer(this.gcpLayer);
         this.addInteraction(this.gcpDraw);
+        this.addInteraction(this.gcpModify);
+        this.addInteraction(this.gcpSnap);
     }
 }
 
