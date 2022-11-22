@@ -38,30 +38,14 @@ uploadBtn.addEventListener('change', function() {
             });
 
             console.log( Date.now() - startTime , 'georef started');
-            const gcps = (await (await fetch('./data/gcps.txt'))
+            const gcps = (await (await fetch('./data/gcps_ny.txt'))
                 .text()).split(' ');
 
-            const warped = await geoRef.byTable(raster, gcps);
+            const geoRaster = await geoRef.byTable(raster, gcps);
+            map.addLayer(geoRaster.layer);
+            map.addControl(new Control({element: geoRaster.link}));
 
-            const fileBytes = await geoRef.Gdal.getFileBytes(warped);
-            const fileName = warped.split('/').pop();
-            saveAs(fileBytes, fileName);
             console.log( Date.now() - startTime , 'georef finshed');
-            
-
-            function saveAs(fileBytes, fileName) {
-                const blob = new Blob([fileBytes]);
-                map.addLayer(slfgrGeoRaster.fromBlob(blob, fileName).layer);
-
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = fileName;
-                link.textContent = 'Download raster';
-                link.style.position = 'absolute';
-                link.style.right = '50px';
-                
-                map.addControl(new Control({element: link}));
-            }
         };
     };
 });
