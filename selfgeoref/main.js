@@ -1,11 +1,12 @@
 import slfgrMap from './slfgr/Map';
 import slfgrRaster from './slfgr/Raster';
-import slfgrGeoRaster from './slfgr/GeoRaster';
 import slfgrGeoRef from './slfgr/GeoRef';
 
 import Control from 'ol/control/Control';
 
 const map = new slfgrMap();
+console.log(map.gcpLayer)
+
 const extentBtn = document.querySelector('.extent-btn');
 map.addControl(new Control({element: extentBtn}));
 
