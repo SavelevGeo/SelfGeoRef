@@ -35,7 +35,8 @@ uploadBtn.addEventListener('change', function() {
                 rasterLayer = raster.fitToExtent(
                     map.getView().calculateExtent()
                 );
-                map.getLayers().insertAt(1, rasterLayer);
+                const layers = map.getLayers();
+                layers.insertAt(layers.getLength() - 1, rasterLayer);
             });
 
             console.log( Date.now() - startTime , 'georef started');
@@ -43,7 +44,8 @@ uploadBtn.addEventListener('change', function() {
                 .text()).split(' ');
 
             const geoRaster = await geoRef.byTable(raster, gcps);
-            map.addLayer(geoRaster.layer);
+            const layers = map.getLayers();
+            layers.insertAt(layers.getLength() - 1, geoRaster.layer);
             map.addControl(new Control({element: geoRaster.link}));
 
             console.log( Date.now() - startTime , 'georef finshed');

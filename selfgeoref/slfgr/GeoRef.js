@@ -25,13 +25,13 @@ class slfgrGeoRef {
         
         const fileBytes = await this.Gdal.getFileBytes(warped);
         const blob = new Blob([fileBytes]);
-        const fileName = raster.img.file.name;
+        const fileName = raster.img.file.name.split('.').at(-2) + '.tif';
         
         const geoRaster = slfgrGeoRaster.fromBlob(blob, fileName);
 
         geoRaster.link = document.createElement('a');
         geoRaster.link.href = URL.createObjectURL(blob);
-        geoRaster.link.download = fileName.split('.').at(-2) + '.tif';            ;
+        geoRaster.link.download = fileName;            ;
         geoRaster.link.textContent = 'Download raster';
         geoRaster.link.style.position = 'absolute';
         geoRaster.link.style.right = '50px';
