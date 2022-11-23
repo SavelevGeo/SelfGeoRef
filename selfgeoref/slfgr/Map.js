@@ -56,7 +56,7 @@ class slfgrMap extends Map {
         this.addInteraction(this.gcpModify);
 
         //remove gcp point on right click
-        this.on('contextmenu', (e) => {
+        this.on('dblclick', (e) => {
             this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
                 if (layer === this.gcpLayer) {
                     this.gcpSource.removeFeature(feature);
