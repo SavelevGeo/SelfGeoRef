@@ -19,13 +19,16 @@ class slfgrMap extends Map {
           'circle-fill-color': 'transparent',
         },
     });
+    
     gcpDraw = new Draw ({
         source: this.gcpSource,
         type: 'Point',
+        //adding only with left mouse button click
         condition: (e) => e.originalEvent.buttons === 1
     });
-    gcpModify = new Modify({ source: this.gcpSource});
+
     gcpSnap = new Snap({ source: this.gcpSource });
+    gcpModify = new Modify({ source: this.gcpSource});
 
     constructor() {
         super({
@@ -40,10 +43,23 @@ class slfgrMap extends Map {
         });
         
         this.addControl(new LayerSwitcher());
+
+        //adding points on click
         this.addLayer(this.gcpLayer);
         this.addInteraction(this.gcpDraw);
-        this.addInteraction(this.gcpModify);
+        
+        //snapping and moving
         this.addInteraction(this.gcpSnap);
+        this.addInteraction(this.gcpModify);
+
+        //remove gcp point on right click
+        this.on('contextmenu', (e) => {
+            this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
+                if (layer === this.gcpLayer) {
+                    this.gcpSource.removeFeature(feature);
+                }
+            })
+        });
     }
 }
 
