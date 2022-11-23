@@ -9,20 +9,23 @@ import LayerSwitcher from 'ol-layerswitcher';
 
 class slfgrMap extends Map {
     gcpSource = new VectorSource();
+    gcpStyle = {
+        'circle-stroke-color': '#484848',
+        'circle-stroke-width': 2,
+        'circle-radius': 5,
+        'circle-fill-color': 'transparent',
+    }
+
     gcpLayer = new VectorLayer({
         title: 'GCPs',
         source: this.gcpSource,
-        style: {
-          'circle-stroke-color': '#484848',
-          'circle-stroke-width': 2,
-          'circle-radius': 5,
-          'circle-fill-color': 'transparent',
-        },
+        style: this.gcpStyle
     });
     
     gcpDraw = new Draw ({
         source: this.gcpSource,
         type: 'Point',
+        style: this.gcpStyle,
         //adding only with left mouse button click
         condition: (e) => e.originalEvent.buttons === 1
     });
