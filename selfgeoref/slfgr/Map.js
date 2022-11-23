@@ -19,7 +19,11 @@ class slfgrMap extends Map {
           'circle-fill-color': 'transparent',
         },
     });
-    gcpDraw = new Draw ({ source: this.gcpSource, type: 'Point' });
+    gcpDraw = new Draw ({
+        source: this.gcpSource,
+        type: 'Point',
+        condition: (e) => e.originalEvent.buttons === 1
+    });
     gcpModify = new Modify({ source: this.gcpSource});
     gcpSnap = new Snap({ source: this.gcpSource });
 
