@@ -2,7 +2,8 @@
 import {Map, View} from 'ol';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {OSM, Vector as VectorSource} from 'ol/source';
-import {Draw, Modify, Snap} from 'ol/interaction';
+import {Draw, Modify, Snap, Select} from 'ol/interaction';
+import {Fill, Style, Stroke} from 'ol/style';
 
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerSwitcher from 'ol-layerswitcher';
@@ -13,13 +14,13 @@ class slfgrMap extends Map {
         'circle-stroke-color': '#484848',
         'circle-stroke-width': 2,
         'circle-radius': 5,
-        'circle-fill-color': 'transparent',
-    }
+        'circle-fill-color': 'transparent'
+    };
 
     gcpLayer = new VectorLayer({
         title: 'GCPs',
         source: this.gcpSource,
-        style: this.gcpStyle
+        style: this.gcpStyleSelected
     });
     
     gcpDraw = new Draw ({
@@ -32,6 +33,15 @@ class slfgrMap extends Map {
 
     gcpSnap = new Snap({ source: this.gcpSource });
     gcpModify = new Modify({ source: this.gcpSource});
+
+    gcpStyleSelected = new Style({
+        fill: new Fill({ color: '#eeeeee' }),
+        stroke: new Stroke({
+            color: 'transparent',
+            width: 2,
+        })
+    });
+    gcpSelect = new Select({ hitTolerance: 10 });
 
     constructor() {
         super({
@@ -52,8 +62,10 @@ class slfgrMap extends Map {
         this.addInteraction(this.gcpDraw);
         
         //snapping and moving
-        this.addInteraction(this.gcpSnap);
         this.addInteraction(this.gcpModify);
+        this.addInteraction(this.gcpSnap);
+
+        this.addInteraction(this.gcpSelect);
 
         //remove gcp point on right click
         this.on('dblclick', (e) => {
