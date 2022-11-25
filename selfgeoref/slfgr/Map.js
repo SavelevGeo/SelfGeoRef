@@ -4,6 +4,7 @@ import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {OSM, Vector as VectorSource} from 'ol/source';
 import {Draw, Modify, Snap, Select} from 'ol/interaction';
 import {Fill, Style, Stroke} from 'ol/style';
+import { singleClick, doubleClick } from 'ol/events/condition';
 
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerSwitcher from 'ol-layerswitcher';
@@ -41,7 +42,18 @@ class slfgrMap extends Map {
             width: 2,
         })
     });
-    gcpSelect = new Select({ hitTolerance: 10 });
+
+    selectType = (mapBrowserEvent) => {
+        if (doubleClick(mapBrowserEvent)) 
+            console.log(mapBrowserEvent)
+        return singleClick(mapBrowserEvent) ||
+            doubleClick(mapBrowserEvent);
+    }
+
+    gcpSelect = new Select({
+        condition: this.selectType,
+        hitTolerance: 10
+    });
 
     constructor() {
         super({
@@ -64,16 +76,17 @@ class slfgrMap extends Map {
         //snapping and moving
         this.addInteraction(this.gcpModify);
 
+        this.gcpSelect.on('dblclick', e => console.log)
         this.addInteraction(this.gcpSelect);
 
         //remove gcp point on right click
-        this.on('dblclick', (e) => {
-            this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
-                if (layer === this.gcpLayer) {
-                    this.gcpSource.removeFeature(feature);
-                }
-            })
-        });
+        // this.on('dblclick', (e) => {
+        //     this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
+        //         if (layer === this.gcpLayer) {
+        //             this.gcpSource.removeFeature(feature);
+        //         }
+        //     })
+        // });
 
         this.addInteraction(this.gcpSnap);
     }
