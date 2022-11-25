@@ -63,7 +63,6 @@ class slfgrMap extends Map {
         
         //snapping and moving
         this.addInteraction(this.gcpModify);
-        this.addInteraction(this.gcpSnap);
 
         this.addInteraction(this.gcpSelect);
 
@@ -75,6 +74,8 @@ class slfgrMap extends Map {
                 }
             })
         });
+
+        this.addInteraction(this.gcpSnap);
     }
 }
 
