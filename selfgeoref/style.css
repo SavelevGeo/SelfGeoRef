@@ -40,3 +40,11 @@ input[type="file"] {
     margin: 0 auto;
     white-space: normal;
 }
+
+#gcp-table {
+    position: absolute;
+    right: 0;
+    bottom: 25px;
+    margin: 0 auto;
+    white-space: normal;
+}
