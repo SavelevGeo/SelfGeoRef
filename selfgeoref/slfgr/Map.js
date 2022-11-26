@@ -7,7 +7,6 @@ import {Circle, Fill, Style, Stroke} from 'ol/style';
 
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerSwitcher from 'ol-layerswitcher';
-import { none } from 'ol/centerconstraint';
 
 class slfgrMap extends Map {
     gcpSource = new VectorSource();
@@ -46,7 +45,7 @@ class slfgrMap extends Map {
     });
 
     gcpSnap = new Snap({ source: this.gcpSource });
-    gcpModify = new Modify({ source: this.gcpSource});
+    gcpModify = new Modify({ source: this.gcpSource });
 
     constructor() {
         super({
@@ -63,6 +62,7 @@ class slfgrMap extends Map {
         
         //snapping and moving
         this.addInteraction(this.gcpModify);
+        this.addInteraction(this.gcpSnap);
 
         // remove gcp point on right click
         this.on('dblclick', (e) => {
@@ -70,7 +70,7 @@ class slfgrMap extends Map {
                 if (layer === this.gcpLayer) {
                     this.gcpSource.removeFeature(feature);
                 }
-            }, {hitTolerance: 5});
+            }, { hitTolerance: 5 });
         });
 
         this.on('click', (e) => {
@@ -84,10 +84,8 @@ class slfgrMap extends Map {
                         feature.setStyle(null);
                     }
                 }
-            }, {hitTolerance: 5});
+            }, { hitTolerance: 5 });
         });
-
-        this.addInteraction(this.gcpSnap);
     }
 }
 
