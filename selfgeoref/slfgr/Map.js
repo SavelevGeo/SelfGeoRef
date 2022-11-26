@@ -1,9 +1,7 @@
 
 import {Map, View} from 'ol';
-import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
-import {OSM, Vector as VectorSource} from 'ol/source';
-import {Draw, Modify, Snap} from 'ol/interaction';
-import {Circle, Fill, Style, Stroke} from 'ol/style';
+import {Tile as TileLayer} from 'ol/layer';
+import {OSM} from 'ol/source';
 
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerSwitcher from 'ol-layerswitcher';
@@ -30,23 +28,9 @@ class slfgrMap extends Map {
         })
     })
 
-    gcpLayer = new VectorLayer({
-        title: 'GCPs',
-        source: this.gcpSource,
-        style: this.gcpStyle
-    });
-    
-    gcpDraw = new Draw ({
-        source: this.gcpSource,
-        type: 'Point',
-        style: this.gcpDrawStyle,
-        //adding only with left mouse button click
-        condition: (e) => e.originalEvent.buttons === 1
-    });
+import addGcpActions from './GCPActions';
 
-    gcpSnap = new Snap({ source: this.gcpSource });
-    gcpModify = new Modify({ source: this.gcpSource });
-
+class slfgrMap extends Map {
     constructor() {
         super({
             target: 'map',
@@ -55,37 +39,8 @@ class slfgrMap extends Map {
         });
         
         this.addControl(new LayerSwitcher());
-
-        //adding points on click
-        this.addLayer(this.gcpLayer);
-        this.addInteraction(this.gcpDraw);
         
-        //snapping and moving
-        this.addInteraction(this.gcpModify);
-        this.addInteraction(this.gcpSnap);
-
-        // remove gcp point on right click
-        this.on('dblclick', (e) => {
-            this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
-                if (layer === this.gcpLayer) {
-                    this.gcpSource.removeFeature(feature);
-                }
-            }, { hitTolerance: 5 });
-        });
-
-        this.on('click', (e) => {
-            this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
-                if (layer === this.gcpLayer) {
-                    if (!feature.selected) {
-                        feature.selected = true;
-                        feature.setStyle(this.gcpSelectStyle);
-                    } else {
-                        feature.selected = false;
-                        feature.setStyle(null);
-                    }
-                }
-            }, { hitTolerance: 5 });
-        });
+        addGcpActions(this);
     }
 }
 
