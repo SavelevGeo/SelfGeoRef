@@ -2,32 +2,45 @@
 import {Map, View} from 'ol';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
 import {OSM, Vector as VectorSource} from 'ol/source';
-import {Draw, Modify, Snap, Select} from 'ol/interaction';
-import {Fill, Style, Stroke} from 'ol/style';
-import { singleClick, doubleClick } from 'ol/events/condition';
+import {Draw, Modify, Snap} from 'ol/interaction';
+import {Circle, Fill, Style, Stroke} from 'ol/style';
 
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerSwitcher from 'ol-layerswitcher';
+import { none } from 'ol/centerconstraint';
 
 class slfgrMap extends Map {
     gcpSource = new VectorSource();
     gcpStyle = {
-        'circle-stroke-color': '#484848',
-        'circle-stroke-width': 2,
+        'circle-stroke-color': '#1E90FF',
+        'circle-stroke-width': 1.25,
         'circle-radius': 5,
         'circle-fill-color': 'transparent'
     };
+    gcpDrawStyle = {
+        'circle-stroke-color': '#484848',
+        'circle-stroke-width': 1.25,
+        'circle-radius': 5,
+        'circle-fill-color': 'transparent'
+    };
+    gcpSelectStyle = new Style({
+        image: new Circle({
+            fill: new Fill({ color: 'rgb(30, 144, 255)' }),
+            stroke: new Stroke({ color: 'white', width: 1.25 }),
+            radius: 5,
+        })
+    })
 
     gcpLayer = new VectorLayer({
         title: 'GCPs',
         source: this.gcpSource,
-        style: this.gcpStyleSelected
+        style: this.gcpStyle
     });
     
     gcpDraw = new Draw ({
         source: this.gcpSource,
         type: 'Point',
-        style: this.gcpStyle,
+        style: this.gcpDrawStyle,
         //adding only with left mouse button click
         condition: (e) => e.originalEvent.buttons === 1
     });
@@ -35,35 +48,10 @@ class slfgrMap extends Map {
     gcpSnap = new Snap({ source: this.gcpSource });
     gcpModify = new Modify({ source: this.gcpSource});
 
-    gcpStyleSelected = new Style({
-        fill: new Fill({ color: '#eeeeee' }),
-        stroke: new Stroke({
-            color: 'transparent',
-            width: 2,
-        })
-    });
-
-    selectType = (mapBrowserEvent) => {
-        if (doubleClick(mapBrowserEvent)) 
-            console.log(mapBrowserEvent)
-        return singleClick(mapBrowserEvent) ||
-            doubleClick(mapBrowserEvent);
-    }
-
-    gcpSelect = new Select({
-        condition: this.selectType,
-        hitTolerance: 10
-    });
-
     constructor() {
         super({
             target: 'map',
-            layers: [
-                new TileLayer({
-                    title: 'OSM',
-                    source: new OSM()
-                })
-            ],
+            layers: [new TileLayer({ title: 'OSM', source: new OSM() })],
             view: new View({center: [0, 0], zoom: 2})
         });
         
@@ -76,17 +64,22 @@ class slfgrMap extends Map {
         //snapping and moving
         this.addInteraction(this.gcpModify);
 
-        this.gcpSelect.on('dblclick', e => console.log)
-        this.addInteraction(this.gcpSelect);
+        // remove gcp point on right click
+        this.on('dblclick', (e) => {
+            this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
+                if (layer === this.gcpLayer) {
+                    this.gcpSource.removeFeature(feature);
+                }
+            }, {hitTolerance: 5});
+        });
 
-        //remove gcp point on right click
-        // this.on('dblclick', (e) => {
-        //     this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
-        //         if (layer === this.gcpLayer) {
-        //             this.gcpSource.removeFeature(feature);
-        //         }
-        //     })
-        // });
+        this.on('click', (e) => {
+            this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
+                if (layer === this.gcpLayer) {
+                    feature.setStyle(this.gcpSelectStyle)
+                }
+            }, {hitTolerance: 5});
+        });
 
         this.addInteraction(this.gcpSnap);
     }
