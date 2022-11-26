@@ -76,7 +76,13 @@ class slfgrMap extends Map {
         this.on('click', (e) => {
             this.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
                 if (layer === this.gcpLayer) {
-                    feature.setStyle(this.gcpSelectStyle)
+                    if (!feature.selected) {
+                        feature.selected = true;
+                        feature.setStyle(this.gcpSelectStyle);
+                    } else {
+                        feature.selected = false;
+                        feature.setStyle(null);
+                    }
                 }
             }, {hitTolerance: 5});
         });
