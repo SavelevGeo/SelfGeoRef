@@ -2,10 +2,11 @@ import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import {Draw, Modify, Snap} from 'ol/interaction';
 import {Circle, Fill, Style, Stroke} from 'ol/style';
+import { Collection } from "ol";
 
 export default function addGcpActions (map) {
-    
-    map.gcpSource = new VectorSource();
+    map.gcpFeatures = new Collection();
+    map.gcpSource = new VectorSource({features: map.gcpFeatures});
     map.gcpStyle = {
         'circle-stroke-color': '#1E90FF',
         'circle-stroke-width': 1.25,

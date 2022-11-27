@@ -6,28 +6,20 @@ import {OSM} from 'ol/source';
 import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import LayerSwitcher from 'ol-layerswitcher';
 
-import 'tabulator-tables/dist/css/tabulator.min.css';
-import {TabulatorFull as Tabulator} from 'tabulator-tables';
-
 import addGcpActions from './GCPActions';
+import slfgrGCPTable from './GCPTable';
 
 class slfgrMap extends Map {
-    gcpTable = new Tabulator('#gcp-table', {
-        layout: 'fitDataTable',
-        columns: [
-            {title: 'mapX', field: 'mapX'}
-        ]
-    });
-
     constructor() {
         super({
             target: 'map',
             layers: [new TileLayer({ title: 'OSM', source: new OSM() })],
-            view: new View({center: [0, 0], zoom: 2})
+            view: new View({center: [5000000, 6000000], zoom: 5})
         });
         
         this.addControl(new LayerSwitcher());
-        addGcpActions(this);
+        addGcpActions(this); 
+        this.addControl(new slfgrGCPTable(this.gcpFeatures.getArray()));
     }
 }
 
