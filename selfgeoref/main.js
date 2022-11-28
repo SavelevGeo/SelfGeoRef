@@ -1,6 +1,7 @@
 import slfgrMap from './slfgr/Map';
 import slfgrRaster from './slfgr/Raster';
 import slfgrGeoRef from './slfgr/GeoRef';
+import addGcpActions from './slfgr/GCPActions';
 
 import Control from 'ol/control/Control';
 
@@ -29,6 +30,13 @@ uploadBtn.addEventListener('change', function() {
             const raster = new slfgrRaster(img);
             let rasterLayer;
             extentBtn.disabled = false;
+
+            extentBtn.addEventListener(
+                'click',
+                () => addGcpActions(map),
+                {once: true}    
+            );
+            
             extentBtn.addEventListener('click', () => {
                 map.removeLayer(rasterLayer);
 

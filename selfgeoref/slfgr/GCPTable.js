@@ -5,16 +5,16 @@ import Control from 'ol/control/Control';
 class slfgrGCPTabulator extends Tabulator {
     constructor(features) {
         super('#gcp-table', {
-                layout: 'fitDataTable',
-                reactiveData: true,
-                data: features,
-                columns: [
-                    {title: 'mapX', field: 'mapX'},
-                    {title: 'mapY', field: 'mapY'}
-                ]
+            layout: 'fitDataTable',
+            reactiveData: true,
+            data: features,
+            columns: [
+                {title: 'mapX', field: 'mapX'},
+                {title: 'mapY', field: 'mapY'}
+            ]
         });
     }
-}
+};
 
 export default class slfgrGCPTable extends Control {
     constructor(features) {

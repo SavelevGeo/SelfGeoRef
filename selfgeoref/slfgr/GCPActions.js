@@ -4,6 +4,8 @@ import {Draw, Modify, Snap} from 'ol/interaction';
 import {Circle, Fill, Style, Stroke} from 'ol/style';
 import { Collection } from "ol";
 
+import slfgrGCPTable from './GCPTable';
+
 export default function addGcpActions (map) {
     map.gcpFeatures = new Collection();
     map.gcpSource = new VectorSource({features: map.gcpFeatures});
@@ -75,4 +77,5 @@ export default function addGcpActions (map) {
         }, { hitTolerance: 5 });
     });
 
+    map.addControl(new slfgrGCPTable(map.gcpFeatures.getArray()));
 }
