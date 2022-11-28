@@ -77,5 +77,5 @@ export default function addGcpActions (map) {
         }, { hitTolerance: 5 });
     });
 
-    map.addControl(new slfgrGCPTable(map.gcpFeatures.getArray()));
+    map.addControl(new slfgrGCPTable(map));
 }
