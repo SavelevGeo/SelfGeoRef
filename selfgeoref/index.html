@@ -5,7 +5,10 @@
     <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./node_modules/ol/ol.css">
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/toggle-switch.css">
     <title>BuGIS WebGeoReferencer</title>
   </head>
   <body>
@@ -14,7 +17,7 @@
     </label>
     <label class="switch">
         <input type="checkbox">
-        <span class="slider"></span>
+        <span class="slider round"></span>
       </label>
     <div id="gcp-table"></div>
     <script type="module" src="./main.js"></script>

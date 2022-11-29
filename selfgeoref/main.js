@@ -11,7 +11,6 @@ const map = new slfgrMap();
 const uploadBtn = document.querySelector('.upload-btn > input');
 const geoRef = await slfgrGeoRef.init();
 uploadBtn.addEventListener('change', function() {
-    const startTime = Date.now();
     console.log('image loading...');
 
     const img = new Image();
@@ -22,14 +21,15 @@ uploadBtn.addEventListener('change', function() {
     reader.onload = (e) => {
         img.src = e.target.result;
         img.onload = async () => {
-            console.log( Date.now() - startTime , 'image loaded');
+            console.time('image')
+            console.timeLog('image', 'image loaded');
 
             const raster = new slfgrRaster(img);
 
             addGcpActions(map);
             map.addLayer(raster.fitToExtent(map.getView().calculateExtent()));
 
-            console.log( Date.now() - startTime , 'georef started');
+            console.timeLog('image', 'georef loaded');
             const gcps = (await (await fetch('./data/gcps.txt'))
                 .text()).split(' ');
 
@@ -37,7 +37,7 @@ uploadBtn.addEventListener('change', function() {
             map.addLayer(geoRaster.layer);
             map.addControl(new Control({element: geoRaster.link}));
 
-            console.log( Date.now() - startTime , 'georef finshed');
+            console.timeLog('image', 'georef finished');
         };
     };
 });

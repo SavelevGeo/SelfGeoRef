@@ -1,4 +1,4 @@
-@import "node_modules/ol/ol.css";
+/* @import "../node_modules/ol/ol.css"; */
 
 html, body {
   margin: 0;
@@ -30,15 +30,6 @@ html, body {
 
 input[type="file"] {
   display: none;
-}
-
-.extent-btn {
-    position: absolute;
-    left: 0;
-    right: 0;
-    width: 50px;
-    margin: 0 auto;
-    white-space: normal;
 }
 
 #gcp-table {
