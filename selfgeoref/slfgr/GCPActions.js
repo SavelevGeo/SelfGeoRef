@@ -63,17 +63,19 @@ export default function addGcpActions (map) {
         }, { hitTolerance: 5 });
     });
 
+    map.toggleGcpSelection = function (feature) {
+        if (!feature.selected) {
+            feature.selected = true;
+            feature.setStyle(map.gcpSelectStyle);
+        } else {
+            feature.selected = false;
+            feature.setStyle(null);
+        }
+    };
+
     map.on('click', (e) => {
         map.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
-            if (layer === map.gcpLayer) {
-                if (!feature.selected) {
-                    feature.selected = true;
-                    feature.setStyle(map.gcpSelectStyle);
-                } else {
-                    feature.selected = false;
-                    feature.setStyle(null);
-                }
-            }
+            if (layer === map.gcpLayer) map.toggleGcpSelection(feature);
         }, { hitTolerance: 5 });
     });
 

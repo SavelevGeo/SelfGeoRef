@@ -22,9 +22,12 @@ class slfgrGCPTabulator extends Tabulator {
             ]
         });
 
-        this.on('rowDeleted', (row) => {
-            map.gcpSource.removeFeature(row.getData());
-        });
+        this.on('rowDeleted', (row) => 
+            map.gcpSource.removeFeature(row.getData()));
+
+        ['rowSelected', 'rowDeselected'].forEach(event => this.on(event,
+            (row) => map.toggleGcpSelection(row.getData())
+        ))
     }
 };
 
