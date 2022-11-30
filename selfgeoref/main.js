@@ -29,15 +29,17 @@ uploadBtn.addEventListener('change', function() {
             addGcpActions(map);
             map.addLayer(raster.fitToExtent(map.getView().calculateExtent()));
 
-            console.timeLog('image', 'georef loaded');
-            const gcps = (await (await fetch('./data/gcps.txt'))
-                .text()).split(' ');
-
-            const geoRaster = await geoRef.byTable(raster, gcps);
-            map.addLayer(geoRaster.layer);
-            map.addControl(new Control({element: geoRaster.link}));
-
-            console.timeLog('image', 'georef finished');
+            document.querySelector('.georef-btn').disabled = false;
         };
     };
 });
+
+// console.timeLog('image', 'georef started');
+// const gcps = (await (await fetch('./data/gcps.txt'))
+//     .text()).split(' ');
+
+// const geoRaster = await geoRef.byTable(raster, gcps);
+// map.addLayer(geoRaster.layer);
+// map.addControl(new Control({element: geoRaster.link}));
+
+// console.timeLog('image', 'georef finished');
