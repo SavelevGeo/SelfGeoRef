@@ -19,8 +19,11 @@
     <input type="button" class="georef-btn fa" 
         value="Georeference raster" disabled>
     <label class="switch">
-        <input type="checkbox">
-        <span class="switch__slider switch__slider_disabled switch__slider_round"></span>
+        <input class="switch__checkbox" type="checkbox" >
+        <span class="switch__slider switch__slider_disabled switch__slider_round">
+            <span class="switch__viewname">GCP's view</span>
+            <span class="switch__viewname">Map view</span>
+        </span>
       </label>
     <div id="gcp-table"></div>
     <script type="module" src="./main.js"></script>
