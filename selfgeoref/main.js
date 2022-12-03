@@ -10,6 +10,9 @@ const map = new slfgrMap();
 //georef raster from upload
 const uploadBtn = document.querySelector('.upload-btn > input');
 const georefBtn = document.querySelector('.georef-btn');
+const switchCbx = document.querySelector('.switch__checkbox');
+const switchSld = document.querySelector('.switch__slider');
+
 const geoRef = await slfgrGeoRef.init();
 
 uploadBtn.addEventListener('change', function() {
@@ -41,7 +44,11 @@ uploadBtn.addEventListener('change', function() {
                 const geoRaster = await geoRef.byTable(raster, gcps);
                 map.addLayer(geoRaster.layer);
                 map.addControl(new Control({element: geoRaster.link}));
-            
+                
+                switchCbx.disabled = false;
+                switchCbx.checked = true;
+                switchSld.classList.remove('switch__slider_disabled');
+
                 console.timeEnd('georef', 'georef finished');
             });
         };
