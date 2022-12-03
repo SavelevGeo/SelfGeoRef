@@ -1,0 +1,42 @@
+.switch__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.switch__slider_disabled {
+    background-color: #ccc;
+}
+
+.switch__slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+input:checked + .switch__slider { background-color: #2196F3;  }
+  
+input:focus + .switch__slider { box-shadow: 0 0 1px #2196F3; }
+  
+input:checked + .switch__slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+  /* Rounded sliders */
+.switch__slider_round { border-radius: 2px; }
+  
+.switch__slider_round:before { border-radius: 2px; }
+  

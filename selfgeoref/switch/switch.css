@@ -1,0 +1,15 @@
+.switch {
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    width: 60px;
+    height: 34px;
+    margin: 10px;
+}
+  
+  /* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
