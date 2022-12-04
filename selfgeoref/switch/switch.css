@@ -2,9 +2,10 @@
     position: absolute;
     display: inline-block;
     right: 0;
-    width: 85px;
-    height: 34px;
+    width: 100px;
+    height: 45px;
     margin: 10px;
+
 }
   
   /* Hide default HTML checkbox */
