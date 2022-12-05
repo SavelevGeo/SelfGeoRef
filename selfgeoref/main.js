@@ -52,6 +52,7 @@ uploadBtn.addEventListener('change', function() {
             
                 const geoRaster = await geoRef.byTable(raster, gcps);
                 worldMap.addLayer(geoRaster.layer);
+                worldMap.setView(geoRaster.layer.getSource().getView());
                 document.body.appendChild(geoRaster.link);
                 
                 switchCbx.disabled = false;
