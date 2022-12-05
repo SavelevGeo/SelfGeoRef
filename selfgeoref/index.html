@@ -14,13 +14,14 @@
     <title>BuGIS WebGeoReferencer</title>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="gcp-map" class="map"></div>
+    <div id="world-map" class="map" hidden></div>
     <label class="upload-btn unselectable fa fa-upload">Upload raster<input type="file">
     </label>
     <input type="button" class="georef-btn fa" 
         value="Georeference raster" disabled>
     <label class="switch unselectable">
-        <input class="switch__checkbox" type="checkbox" disabled>
+        <input class="switch__checkbox" type="checkbox" >
         <span class="switch__slider switch__slider_disabled switch__slider_round">
             <span class="switch__viewname">GCP's view</span>
             <span class="switch__viewname">Map view</span>
