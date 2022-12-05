@@ -11,7 +11,7 @@ import Control from 'ol/control/Control';
 
 const gcpMap = new slfgrMap('gcp-map');
 const worldMap = new slfgrMap('world-map');
-worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM() }));
+worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM(), visible: true }));
 
 //georef raster from upload
 const uploadBtn = document.querySelector('.upload-btn > input');

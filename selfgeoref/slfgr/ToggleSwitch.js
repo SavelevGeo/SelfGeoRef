@@ -4,6 +4,9 @@ class toggleSwitch {
         this.map1 = map1.getTargetElement();
         this.map2 = map2.getTargetElement();
 
+        //we need the map not to be hidden on start up, so the layers would render
+        //if add this property in html, no layers would be visible
+        this.map2.hidden = true; 
 
         this.element.addEventListener('change', () => this.toggle());
     }
