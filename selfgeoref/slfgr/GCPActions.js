@@ -10,7 +10,7 @@ export default function addGcpActions (map) {
     map.gcpFeatures = new Collection();
     map.gcpSource = new VectorSource({features: map.gcpFeatures});
     map.gcpStyle = {
-        'circle-stroke-color': '#1E90FF',
+        'circle-stroke-color': '#13678A',
         'circle-stroke-width': 1.25,
         'circle-radius': 5,
         'circle-fill-color': 'transparent'
