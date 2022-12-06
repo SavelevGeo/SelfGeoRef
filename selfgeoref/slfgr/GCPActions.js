@@ -77,7 +77,12 @@ export default function addGcpActions (map) {
 
     map.on('click', (e) => {
         map.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
-            if (layer === map.gcpLayer) map.toggleGcpSelection(feature);
+            if (layer === map.gcpLayer) {
+                // map.toggleGcpSelection(feature); is inculded in event listener on row selection
+                map.gcpTable.getRows().find(
+                    row => row.getData() === feature
+                ).toggleSelect();
+            }
         }, { hitTolerance: 5 });
     });    
 }
