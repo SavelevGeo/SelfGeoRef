@@ -11,8 +11,8 @@ export default class slfgrGCPTable extends Tabulator {
                 {formatter: 'rowSelection', titleFormatter: 'rowSelection',
                 hozAlign: 'center', headerSort: false,
                 cellClick: (e, cell) => cell.getRow().toggleSelect()},
-                {title: 'mapX', field: 'mapX'},
-                {title: 'mapY', field: 'mapY'}
+                {title: 'mapX', field: 'mapX', editor: true},
+                {title: 'mapY', field: 'mapY', editor: true}
             ],
             rowDblClickMenu: [
                 {label: 'Delete point', action: (e, row) => row.delete()},
