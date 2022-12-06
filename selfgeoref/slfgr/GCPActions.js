@@ -73,11 +73,11 @@ export default function addGcpActions (map) {
         }
     };
 
+    map.gcpTable = new slfgrGCPTable(map);
+
     map.on('click', (e) => {
         map.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
             if (layer === map.gcpLayer) map.toggleGcpSelection(feature);
         }, { hitTolerance: 5 });
-    });
-
-    map.addControl(new slfgrGCPTable(map));
+    });    
 }

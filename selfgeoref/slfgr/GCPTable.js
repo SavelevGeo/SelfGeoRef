@@ -2,7 +2,7 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import {TabulatorFull as Tabulator} from "tabulator-tables";
 import Control from 'ol/control/Control';
 
-class slfgrGCPTabulator extends Tabulator {
+export default class slfgrGCPTable extends Tabulator {
     constructor(map) {
         super('#gcp-table', {
             layout: 'fitDataTable', reactiveData: true,
@@ -21,6 +21,7 @@ class slfgrGCPTabulator extends Tabulator {
                         .forEach(row => row.delete())}
             ]
         });
+        map.addControl(new Control({element: this.element}));
 
         this.on('rowDeleted', (row) => 
             map.gcpSource.removeFeature(row.getData()));
@@ -30,9 +31,4 @@ class slfgrGCPTabulator extends Tabulator {
         ))
     }
 };
-
-export default class slfgrGCPTable extends Control {
-    constructor(map) {
-        super({element: (new slfgrGCPTabulator(map)).element})
-    }
-}
+    
