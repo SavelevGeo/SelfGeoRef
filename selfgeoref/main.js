@@ -12,7 +12,7 @@ import toggleSwitch from './slfgr/ToggleSwitch';
 
 const gcpMap = new slfgrMap('gcp-map');
 const worldMap = new slfgrMap('world-map');
-worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM(), visible: true }));
+worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM() }));
 
 //georef raster from upload
 const uploadBtn = document.querySelector('.upload-btn > input');
