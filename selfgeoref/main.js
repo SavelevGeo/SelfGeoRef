@@ -1,14 +1,14 @@
 import {Tile as TileLayer} from 'ol/layer';
 import {OSM} from 'ol/source';
 import { View } from 'ol';
+import { buffer } from 'ol/extent';
+import Control from 'ol/control/Control';
 
 import slfgrMap from './slfgr/Map';
 import slfgrRaster from './slfgr/Raster';
 import slfgrGeoRef from './slfgr/GeoRef';
 import addGcpActions from './slfgr/GCPActions';
 import toggleSwitch from './slfgr/ToggleSwitch';
-
-import Control from 'ol/control/Control';
 
 const gcpMap = new slfgrMap('gcp-map');
 const worldMap = new slfgrMap('world-map');
@@ -39,10 +39,18 @@ uploadBtn.addEventListener('input', function() {
         img.onload = async () => {
             console.timeEnd('image', 'image loaded');
 
-            const raster = new slfgrRaster(img);
-
             addGcpActions(gcpMap);
-            gcpMap.addLayer(raster.fitToExtent(gcpMap.getView().calculateExtent()));
+
+            const raster = new slfgrRaster(img);
+            gcpMap.addLayer(raster.layer);
+            const gcpView = new View({
+                extent: buffer(raster.extent, raster.extent[2])
+            });
+            gcpView.fit(raster.extent, {
+                size: gcpMap.getSize(),
+                padding: [75, 75, 75, 75]
+            });
+            gcpMap.setView(gcpView);
 
             georefBtn.disabled = false;
             georefBtn.addEventListener('click', async () => {
