@@ -34,7 +34,8 @@ class slfgrGeoRef {
         geoRaster.link.download = fileName;            ;
         geoRaster.link.textContent = 'Download raster';
         geoRaster.link.style.position = 'absolute';
-        geoRaster.link.style.right = '50px';
+        geoRaster.link.style.left = '55px';
+        geoRaster.link.style.top = '30px';
 
         return geoRaster
     }
