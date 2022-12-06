@@ -18,12 +18,15 @@ worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM() }));
 const uploadBtn = document.querySelector('.upload-btn > input');
 const georefBtn = document.querySelector('.georef-btn');
 gcpMap.addControl(new Control({element: georefBtn}));
+georefBtn.addEventListener('click', () => console.log(gcpMap.gcpTable.gcps))
 
 const switchCbx = document.querySelector('.switch__checkbox');
 const switchSld = document.querySelector('.switch__slider');
 const mapSwitch = new toggleSwitch(switchCbx, gcpMap, worldMap);
 
 const geoRef = await slfgrGeoRef.init();
+
+// addGcpActions(gcpMap);
 
 uploadBtn.addEventListener('input', function() {
     console.time('image')
@@ -57,10 +60,10 @@ uploadBtn.addEventListener('input', function() {
             georefBtn.addEventListener('click', async () => {
                 console.time('georef');
                 console.timeLog('georef', 'georef started');
-                const gcps = (await (await fetch('./data/gcps.txt'))
-                    .text()).split(' ');
             
-                const geoRaster = await geoRef.byTable(raster, gcps);
+                const geoRaster = await geoRef.byTable(
+                    raster, gcpMap.gcpTable.gcps
+                );
                 worldMap.addLayer(geoRaster.layer);
                 const geoRasterView = await geoRaster.layer.getSource().getView();
                 const notRestrictedView = new View();

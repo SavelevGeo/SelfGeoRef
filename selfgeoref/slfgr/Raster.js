@@ -6,7 +6,7 @@ class slfgrRaster {
         this.img = img;
         this.crs = crs;
 
-        this.extent = [0, 0, this.img.width, this.img.height];
+        this.extent = [0, -this.img.height, this.img.width, 0];
         this.layer = new ImageLayer({
             title: "Diamante_1_map_area",
             source: new Static({

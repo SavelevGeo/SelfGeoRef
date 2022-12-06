@@ -9,8 +9,8 @@ export default class slfgrGCPTable extends Tabulator {
             data: map.gcpFeatures.getArray(),
             columns: [
                 {formatter: 'rowSelection', titleFormatter: 'rowSelection',
-                hozAlign: 'center', headerSort: false,
-                cellClick: (e, cell) => cell.getRow().toggleSelect()},
+                 hozAlign: 'center', headerSort: false,
+                 cellClick: (e, cell) => cell.getRow().toggleSelect()},
                 {title: 'mapX', field: 'mapX', editor: true},
                 {title: 'mapY', field: 'mapY', editor: true}
             ],
@@ -29,6 +29,14 @@ export default class slfgrGCPTable extends Tabulator {
         ['rowSelected', 'rowDeselected'].forEach(event => this.on(event,
             (row) => map.toggleGcpSelection(row.getData())
         ))
+    }
+
+    get gcps() {
+        return this.getData().map(row => [
+            '-gcp',
+            ...row.values_.geometry.flatCoordinates.map(Math.abs).map(String),
+            row.mapX, row.mapY
+        ]).flat()
     }
 };
     
