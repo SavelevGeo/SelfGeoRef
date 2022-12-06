@@ -27,7 +27,7 @@ const geoRef = await slfgrGeoRef.init();
 
 uploadBtn.addEventListener('input', function() {
     console.time('image')
-    console.timeLog('image loading...');
+    console.timeLog('image', 'image loading...');
 
     const img = new Image();
     img.file = this.files[0];
@@ -37,7 +37,8 @@ uploadBtn.addEventListener('input', function() {
     reader.onload = (e) => {
         img.src = e.target.result;
         img.onload = async () => {
-            console.timeEnd('image', 'image loaded');
+            console.timeLog('image', 'image loaded');
+            console.timeEnd('image');
 
             addGcpActions(gcpMap);
 
@@ -74,7 +75,8 @@ uploadBtn.addEventListener('input', function() {
                 switchCbx.click();
                 switchSld.classList.remove('switch__slider_disabled');
 
-                console.timeEnd('georef', 'georef finished');
+                console.timeLog('georef', 'georef finished');
+                console.timeEnd('georef');
             });
         };
     };
