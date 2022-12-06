@@ -40,8 +40,6 @@ uploadBtn.addEventListener('input', function() {
             console.timeLog('image', 'image loaded');
             console.timeEnd('image');
 
-            addGcpActions(gcpMap);
-
             const raster = new slfgrRaster(img);
             gcpMap.addLayer(raster.layer);
             const gcpView = new View({
@@ -52,6 +50,8 @@ uploadBtn.addEventListener('input', function() {
                 padding: [75, 75, 75, 75]
             });
             gcpMap.setView(gcpView);
+
+            addGcpActions(gcpMap);
 
             georefBtn.disabled = false;
             georefBtn.addEventListener('click', async () => {
