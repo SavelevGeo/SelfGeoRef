@@ -1,5 +1,6 @@
 import {Tile as TileLayer} from 'ol/layer';
 import {OSM} from 'ol/source';
+import { View } from 'ol';
 
 import slfgrMap from './slfgr/Map';
 import slfgrRaster from './slfgr/Raster';
@@ -24,7 +25,7 @@ const mapSwitch = new toggleSwitch(switchCbx, gcpMap, worldMap);
 
 const geoRef = await slfgrGeoRef.init();
 
-uploadBtn.addEventListener('change', function() {
+uploadBtn.addEventListener('input', function() {
     console.time('image')
     console.timeLog('image loading...');
 
@@ -45,14 +46,20 @@ uploadBtn.addEventListener('change', function() {
 
             georefBtn.disabled = false;
             georefBtn.addEventListener('click', async () => {
-                console.time('georef')
+                console.time('georef');
                 console.timeLog('georef', 'georef started');
                 const gcps = (await (await fetch('./data/gcps.txt'))
                     .text()).split(' ');
             
                 const geoRaster = await geoRef.byTable(raster, gcps);
                 worldMap.addLayer(geoRaster.layer);
-                worldMap.setView(geoRaster.layer.getSource().getView());
+                const geoRasterView = await geoRaster.layer.getSource().getView();
+                const notRestrictedView = new View();
+                notRestrictedView.fit(geoRasterView.extent, {
+                    size: worldMap.getSize(),
+                    padding: [75, 75, 75, 75]
+                });
+                worldMap.setView(notRestrictedView);
                 document.body.appendChild(geoRaster.link);
                 
                 switchCbx.disabled = false;
