@@ -18,9 +18,10 @@ const georefBtn = document.querySelector('.georef-btn');
 gcpMap.addControl(new Control({element: georefBtn}));
 georefBtn.addEventListener('click', () => console.log(gcpMap.gcpTable.gcps))
 
-const switchCbx = document.querySelector('.switch__checkbox');
-const switchSld = document.querySelector('.switch__slider');
-const mapSwitch = new toggleSwitch(switchCbx, gcpMap, worldMap);
+const mapSwitch = new toggleSwitch(
+    document.querySelector('.switch'),
+    gcpMap, worldMap
+);
 
 const geoRef = await slfgrGeoRef.init();
 
@@ -60,9 +61,7 @@ uploadBtn.addEventListener('input', function() {
                 // );
                 worldMap.addGeoRaster(geoRaster);
 
-                switchCbx.disabled = false;
-                switchCbx.click();
-                switchSld.classList.remove('switch__slider_disabled');
+                mapSwitch.init();
 
                 console.timeLog('georef', 'georef finished');
                 console.timeEnd('georef');
