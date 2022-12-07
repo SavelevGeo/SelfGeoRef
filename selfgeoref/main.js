@@ -24,8 +24,6 @@ const mapSwitch = new toggleSwitch(switchCbx, gcpMap, worldMap);
 
 const geoRef = await slfgrGeoRef.init();
 
-// addGcpActions(gcpMap);
-
 uploadBtn.addEventListener('input', function() {
     console.time('image')
     console.timeLog('image', 'image loading...');
@@ -51,10 +49,15 @@ uploadBtn.addEventListener('input', function() {
             georefBtn.addEventListener('click', async () => {
                 console.time('georef');
                 console.timeLog('georef', 'georef started');
-            
-                const geoRaster = await geoRef.byTable(
-                    raster, gcpMap.gcpTable.gcps
-                );
+                
+                //testing purposes
+                const gcps = (await (await fetch('./data/gcps.txt'))
+                    .text()).split(' ');
+                const geoRaster = await geoRef.byTable(raster, gcps);
+                
+                // const geoRaster = await geoRef.byTable(
+                //     raster, gcpMap.gcpTable.gcps
+                // );
                 worldMap.addGeoRaster(geoRaster);
 
                 switchCbx.disabled = false;
