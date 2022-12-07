@@ -1,7 +1,5 @@
 import {Tile as TileLayer} from 'ol/layer';
 import {OSM} from 'ol/source';
-import { View } from 'ol';
-import { buffer } from 'ol/extent';
 import Control from 'ol/control/Control';
 
 import slfgrMap from './slfgr/Map';
@@ -45,15 +43,7 @@ uploadBtn.addEventListener('input', function() {
             console.timeEnd('image');
 
             const raster = new slfgrRaster(img);
-            gcpMap.addLayer(raster.layer);
-            const gcpView = new View({
-                extent: buffer(raster.extent, raster.extent[2])
-            });
-            gcpView.fit(raster.extent, {
-                size: gcpMap.getSize(),
-                padding: [75, 75, 75, 75]
-            });
-            gcpMap.setView(gcpView);
+            gcpMap.addSlfgrRaster(raster);
 
             addGcpActions(gcpMap);
 
@@ -65,16 +55,8 @@ uploadBtn.addEventListener('input', function() {
                 const geoRaster = await geoRef.byTable(
                     raster, gcpMap.gcpTable.gcps
                 );
-                worldMap.addLayer(geoRaster.layer);
-                const geoRasterView = await geoRaster.layer.getSource().getView();
-                const notRestrictedView = new View();
-                notRestrictedView.fit(geoRasterView.extent, {
-                    size: worldMap.getSize(),
-                    padding: [75, 75, 75, 75]
-                });
-                worldMap.setView(notRestrictedView);
-                document.body.appendChild(geoRaster.link);
-                
+                worldMap.addGeoRaster(geoRaster);
+
                 switchCbx.disabled = false;
                 switchCbx.click();
                 switchSld.classList.remove('switch__slider_disabled');
