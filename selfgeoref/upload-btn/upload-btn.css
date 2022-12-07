@@ -1,0 +1,22 @@
+.upload-btn {
+    position: absolute;
+    z-index: 1;
+    left: 50px;
+    font-weight: bolder;
+    font-size: 15px;
+    color: rgb(83, 83, 83);
+  
+    border: 1px solid rgba(181, 179, 179, 0.852);
+    border-radius: 2px;
+    background-color: #FCFCFC;
+    display: inline-block;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.upload-btn_disabled {
+    color: #ccc;
+    cursor: default;
+}
+  
+.upload-btn input[type="file"] { display: none; }

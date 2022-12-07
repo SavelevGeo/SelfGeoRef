@@ -32,6 +32,7 @@ uploadBtn.addEventListener('input', function() {
     console.time('image')
     console.timeLog('image', 'image loading...');
 
+    uploadBtn.parentElement.classList.add('upload-btn_disabled');
     const img = new Image();
     img.file = this.files[0];
 
@@ -83,5 +84,4 @@ uploadBtn.addEventListener('input', function() {
             });
         };
     };
-});
-
+}, {once: true});
