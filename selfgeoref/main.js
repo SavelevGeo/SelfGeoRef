@@ -15,6 +15,7 @@ worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM() }));
 //georef raster from upload
 const uploadBtn = document.querySelector('.upload-btn > input');
 const georefBtn = document.querySelector('.georef-btn');
+const georefBtnSpinner = georefBtn.querySelector('.georef-btn__spinner');
 gcpMap.addControl(new Control({element: georefBtn}));
 
 const mapSwitch = new toggleSwitch(
@@ -27,7 +28,7 @@ uploadBtn.addEventListener('input', function() {
     console.timeLog('image', 'image loading...');
 
     //upload button works only once yet
-    uploadBtn.parentElement.classList.add('upload-btn_disabled');
+    uploadBtn.parentElement.classList.add('btn_disabled');
 
     //Image object to hold the uploaded image
     const img = new Image();
@@ -54,6 +55,9 @@ uploadBtn.addEventListener('input', function() {
 
 slfgrGeoRef.init()
     .then(async (geoRef) => {
+        //hide spinner
+        georefBtnSpinner.classList.toggle('fa-spinner');
+
         //testing purposes
         const gcps = (await (await fetch(
             './data/diamante_gcp_32612.txt'
@@ -61,7 +65,7 @@ slfgrGeoRef.init()
         georefBtn.addEventListener('click', async () => console.log(
             await geoRef.transformGcps(gcps)
         ));
-        georefBtn.disabled = false;
+        georefBtn.classList.toggle('btn_disabled');
 
         georefBtn.addEventListener('click', async () => {
             console.time('georef');
@@ -82,5 +86,5 @@ slfgrGeoRef.init()
 
             console.timeLog('georef', 'georef finished');
             console.timeEnd('georef');
-    });
+        });
 })

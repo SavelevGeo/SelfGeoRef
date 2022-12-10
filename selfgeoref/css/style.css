@@ -10,6 +10,8 @@
 html, body {
   margin: 0;
   height: 100%;
+
+  font-size: 15px;
 }
 
 .map {
@@ -19,31 +21,32 @@ html, body {
   width: 100%;
 }
 
-.georef-btn {
-    position: absolute;
-    text-align: center;
-    font-weight: bolder;
-    padding: 5px;
-    font-size: 15px;
-
-    border: 1px solid rgba(181, 179, 179, 0.852);
-    left: 50%;
-    transform: translate(-50%, 0);
-}
-
-.georef-btn:enabled {
-    background-color: #FCFCFC;
-    color: rgb(83, 83, 83);
-}
-
-.georef-btn:active {
-    background-color: #2196F3;
-}
-
 #gcp-table {
     position: absolute;
     right: 0;
     bottom: 25px;
     margin: 0 auto;
     white-space: normal;
+}
+
+.btn {
+    cursor: pointer;
+    position: absolute;
+
+    padding: 5px;
+    border: 1px solid rgba(181, 179, 179, 0.852);
+    border-radius: 2px;
+
+    color: rgb(83, 83, 83);
+    font-weight: bolder;
+    background-color: #FCFCFC;
+}
+
+.btn_disabled {
+    color: #ccc;
+    cursor: default;
+}
+
+.btn:not(.btn_disabled):active {
+    background-color: #2196F3;
 }

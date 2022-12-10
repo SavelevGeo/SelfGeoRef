@@ -1,0 +1,4 @@
+.georef-btn__spinner {
+    position: absolute;
+    left: calc(50% - 7.5px); /*7.5px - half of the generel font size*/
+}
