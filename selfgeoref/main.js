@@ -63,7 +63,7 @@ slfgrGeoRef.init()
             './data/diamante_gcp_32612.txt'
             )).text()).split(' ');
         georefBtn.addEventListener('click', async () => console.log(
-            await geoRef.transformGcps(gcps)
+            await geoRef.transformGcps(gcps, 'EPSG:32612')
         ));
         georefBtn.classList.toggle('btn_disabled');
 
@@ -75,7 +75,10 @@ slfgrGeoRef.init()
             const gcps = (await (await fetch(
                 './data/diamante_gcp_32612.txt'
                 )).text()).split(' ');
-            const geoRaster = await geoRef.byTable(gcpMap.raster, gcps);
+            const transformedGcps = await geoRef.transformGcps(gcps, 'EPSG:32612');
+            const geoRaster = await geoRef.byTable(
+                gcpMap.raster, transformedGcps
+            );
             
             // const geoRaster = await geoRef.byTable(
             //     raster, gcpMap.gcpTable.gcps
