@@ -10,6 +10,25 @@ class slfgrGeoRef {
         this.Gdal = gdal;
     }
 
+    async transformGcps(gcps) {
+        const mapXY = 
+            //from empty array with element for each gcp
+            [...Array(gcps.length / 5)].map((_,i) =>
+                //from gcps array get every third and fourth out of every five
+                [gcps[i * 5 + 3], gcps[i * 5 + 4]]
+                //convert it to integer
+                .map(e => +e)
+        );
+
+        const pseudoMercCoords = await this.Gdal.gdaltransform(mapXY, [
+            '-s_srs', 'EPSG:32612',
+            '-t_srs', 'EPSG:3857',
+            '-output_xy'
+        ])
+
+        return pseudoMercCoords
+    }
+
     async byTable(raster,  gcps) {
         const img_gdal = (await this.Gdal.open(raster.img.file)).datasets[0];
         const options = gcps.concat(['-of', 'GTiff', '-a_srs', raster.crs]);
