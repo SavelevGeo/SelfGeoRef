@@ -10,7 +10,7 @@ class slfgrGeoRef {
         this.Gdal = gdal;
     }
 
-    async transformGcps(gcps) {
+    async transformGcps(gcps, crs) {
         const mapXY = 
             //from empty array with element for each gcp
             [...Array(gcps.length / 5)].map((_,i) =>
@@ -21,7 +21,7 @@ class slfgrGeoRef {
         );
 
         const pseudoMercCoords = await this.Gdal.gdaltransform(mapXY, [
-            '-s_srs', 'EPSG:32612',
+            '-s_srs', crs,
             '-t_srs', 'EPSG:3857',
             '-output_xy'
         ])
