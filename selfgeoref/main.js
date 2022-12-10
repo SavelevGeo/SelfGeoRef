@@ -16,14 +16,19 @@ worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM() }));
 const uploadBtn = document.querySelector('.upload-btn > input');
 const georefBtn = document.querySelector('.georef-btn');
 gcpMap.addControl(new Control({element: georefBtn}));
-georefBtn.addEventListener('click', () => console.log(gcpMap.gcpTable.gcps))
 
 const mapSwitch = new toggleSwitch(
     document.querySelector('.switch'),
     gcpMap, worldMap
 );
 
-const geoRef = await slfgrGeoRef.init();
+//testing purposes
+const gcps = (await (await fetch(
+    './data/diamante_gcp_32612.txt'
+    )).text()).split(' ');
+georefBtn.addEventListener('click', async () => console.log(
+    await geoRef.transformGcps(gcps)
+));
 
 uploadBtn.addEventListener('input', function() {
     console.time('image')
@@ -52,8 +57,9 @@ uploadBtn.addEventListener('input', function() {
                 console.timeLog('georef', 'georef started');
                 
                 //testing purposes
-                const gcps = (await (await fetch('./data/gcps.txt'))
-                    .text()).split(' ');
+                const gcps = (await (await fetch(
+                    './data/diamante_gcp_32612.txt'
+                    )).text()).split(' ');
                 const geoRaster = await geoRef.byTable(raster, gcps);
                 
                 // const geoRaster = await geoRef.byTable(
