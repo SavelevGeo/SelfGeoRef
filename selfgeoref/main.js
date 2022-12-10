@@ -34,10 +34,14 @@ uploadBtn.addEventListener('input', function() {
     console.time('image')
     console.timeLog('image', 'image loading...');
 
+    //upload button works only once yet
     uploadBtn.parentElement.classList.add('upload-btn_disabled');
+
+    //Image object to hold the uploaded image
     const img = new Image();
     img.file = this.files[0];
 
+    //FileReader to load the image
     const reader = new FileReader();
     reader.readAsDataURL(img.file);
     reader.onload = (e) => {
