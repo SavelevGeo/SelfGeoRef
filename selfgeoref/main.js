@@ -22,14 +22,6 @@ const mapSwitch = new toggleSwitch(
     gcpMap, worldMap
 );
 
-//testing purposes
-const gcps = (await (await fetch(
-    './data/diamante_gcp_32612.txt'
-    )).text()).split(' ');
-georefBtn.addEventListener('click', async () => console.log(
-    await geoRef.transformGcps(gcps)
-));
-
 uploadBtn.addEventListener('input', function() {
     console.time('image')
     console.timeLog('image', 'image loading...');
@@ -54,30 +46,39 @@ uploadBtn.addEventListener('input', function() {
             gcpMap.addSlfgrRaster(raster);
 
             addGcpActions(gcpMap);
-
-            georefBtn.disabled = false;
-            georefBtn.addEventListener('click', async () => {
-                console.time('georef');
-                console.timeLog('georef', 'georef started');
-                
-                //testing purposes
-                const gcps = (await (await fetch(
-                    './data/diamante_gcp_32612.txt'
-                    )).text()).split(' ');
-                const geoRaster = await geoRef.byTable(raster, gcps);
-                
-                // const geoRaster = await geoRef.byTable(
-                //     raster, gcpMap.gcpTable.gcps
-                // );
-                worldMap.addGeoRaster(geoRaster);
-
-                mapSwitch.init();
-
-                console.timeLog('georef', 'georef finished');
-                console.timeEnd('georef');
-            });
         };
     };
 }, {once: true});
 
-const geoRef = await slfgrGeoRef.init();
+slfgrGeoRef.init()
+    .then(async (geoRef) => {
+        //testing purposes
+        const gcps = (await (await fetch(
+            './data/diamante_gcp_32612.txt'
+            )).text()).split(' ');
+        georefBtn.addEventListener('click', async () => console.log(
+            await geoRef.transformGcps(gcps)
+        ));
+        georefBtn.disabled = false;
+
+        georefBtn.addEventListener('click', async () => {
+            console.time('georef');
+            console.timeLog('georef', 'georef started');
+            
+            //testing purposes
+            const gcps = (await (await fetch(
+                './data/diamante_gcp_32612.txt'
+                )).text()).split(' ');
+            const geoRaster = await geoRef.byTable(gcpMap.raster, gcps);
+            
+            // const geoRaster = await geoRef.byTable(
+            //     raster, gcpMap.gcpTable.gcps
+            // );
+            worldMap.addSlfgrGeoRaster(geoRaster);
+
+            mapSwitch.init();
+
+            console.timeLog('georef', 'georef finished');
+            console.timeEnd('georef');
+    });
+})

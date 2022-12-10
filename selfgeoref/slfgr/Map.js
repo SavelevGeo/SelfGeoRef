@@ -24,9 +24,11 @@ class slfgrMap extends Map {
             padding: [75, 75, 75, 75]
         });
         this.setView(gcpView);
+
+        this.raster = raster; //for use on georefbtn click
     }
 
-    async addGeoRaster(geoRaster) {
+    async addSlfgrGeoRaster(geoRaster) {
         this.addLayer(geoRaster.layer);
         const geoRasterView = await geoRaster.layer.getSource().getView();
         const notRestrictedView = new View();
