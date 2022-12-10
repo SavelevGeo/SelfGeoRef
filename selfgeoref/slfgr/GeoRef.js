@@ -25,8 +25,11 @@ class slfgrGeoRef {
             '-t_srs', 'EPSG:3857',
             '-output_xy'
         ])
-
+        
         return pseudoMercCoords
+                //for each coords pair take the -gcp and imageX imageY prefix
+                .map((e, i) => [gcps.slice(i * 5, i * 5 + 3), e.map(String)])
+                .flat(2)
     }
 
     async byTable(raster,  gcps) {
