@@ -69,3 +69,5 @@ uploadBtn.addEventListener('input', function() {
         };
     };
 }, {once: true});
+
+const geoRef = await slfgrGeoRef.init();
