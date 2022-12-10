@@ -48,7 +48,9 @@ uploadBtn.addEventListener('input', function() {
             addGcpActions(gcpMap);
         };
     };
-}, {once: true});
+
+    this.disabled = true;
+});
 
 slfgrGeoRef.init()
     .then(async (geoRef) => {
