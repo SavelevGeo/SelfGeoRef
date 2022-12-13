@@ -68,23 +68,10 @@ slfgrGeoRef.init()
         georefBtnSpinner.classList.toggle('fa-spinner');
         georefBtn.classList.toggle('btn_disabled');
 
-        // //testing purposes
-        // const gcps = (await (await fetch(
-        //     './data/diamante_gcp_32612.txt'
-        //     )).text()).split(' ');
-        // georefBtn.addEventListener('click', async () => console.log(
-        //     await geoRef.transformGcps(gcps, 'EPSG:32612')
-        // ));
-
         georefBtn.addEventListener('click', async () => {
             console.time('georef');
             console.timeLog('georef', 'georef started');
 
-            // //testing purposes
-            // const gcps = (await (await fetch(
-            //     './data/diamante_gcp_32612.txt'
-            // )).text()).split(' ');
-            
             const gcps = gcpMap.gcpTable.gcps;
             const transformedGcps = await geoRef.transformGcps(
                 gcps, gcpCrsInput.epsgCode
