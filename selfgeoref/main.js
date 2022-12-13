@@ -14,8 +14,9 @@ worldMap.addLayer(new TileLayer({ title: 'OSM', source: new OSM() }));
 
 //georef raster from upload
 const uploadBtn = document.querySelector('.upload-btn > input');
+const uploadBtnSpinner = document.querySelector('.upload-btn > .btn-spinner');
 const georefBtn = document.querySelector('.georef-btn');
-const georefBtnSpinner = georefBtn.querySelector('.georef-btn__spinner');
+const georefBtnSpinner = georefBtn.querySelector('.btn-spinner');
 gcpMap.addControl(new Control({element: georefBtn}));
 
 const mapSwitch = new toggleSwitch(
@@ -26,6 +27,8 @@ const mapSwitch = new toggleSwitch(
 uploadBtn.addEventListener('input', function() {
     console.time('image')
     console.timeLog('image', 'image loading...');
+
+    uploadBtnSpinner.classList.toggle('fa-spinner');
 
     //upload button works only once yet
     uploadBtn.parentElement.classList.add('btn_disabled');
@@ -42,6 +45,7 @@ uploadBtn.addEventListener('input', function() {
         img.onload = async () => {
             console.timeLog('image', 'image loaded');
             console.timeEnd('image');
+            uploadBtnSpinner.classList.toggle('fa-spinner');
 
             const raster = new slfgrRaster(img);
             gcpMap.addSlfgrRaster(raster);

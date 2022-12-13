@@ -50,3 +50,8 @@ html, body {
 .btn:not(.btn_disabled):active {
     background-color: #2196F3;
 }
+
+.btn-spinner {
+    position: absolute;
+    left: calc(50% - 7.5px); /*7.5px - half of the general font size*/
+}

@@ -13,16 +13,21 @@
     <link rel="stylesheet" href="./switch/__viewname/switch__viewname.css">
     <link rel="stylesheet" href="./upload-btn/upload-btn.css">
     <link rel="stylesheet" href="./georef-btn/georef-btn.css">
-    <link rel="stylesheet" href="./georef-btn/__spinner/georef-btn__spinner.css">
 
     <title>BuGIS WebGeoReferencer</title>
   </head>
   <body>
     <div id="gcp-map" class="map"></div>
     <div id="world-map" class="map"></div>
-    <label class="btn upload-btn unselectable fa fa-upload">Upload raster<input type="file">
+    <label class="btn upload-btn unselectable fa fa-upload">
+        <span class="btn-spinner fa fa-spin"></span>
+        Upload raster
+        <input type="file" accept=".jpg, .jpeg, .png">
     </label>
-    <label class="btn georef-btn btn_disabled "><span class="georef-btn__spinner fa fa-spinner fa-spin"></span>Georeference raster</label>
+    <label class="btn georef-btn btn_disabled ">
+        <span class="btn-spinner fa fa-spinner fa-spin"></span>
+        Georeference raster
+    </label>
     <label class="switch unselectable">
         <input class="switch__checkbox" type="checkbox" disabled>
         <span class="switch__slider switch__slider_disabled switch__slider_round">
