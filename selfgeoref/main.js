@@ -7,6 +7,7 @@ import slfgrRaster from './slfgr/Raster';
 import slfgrGeoRef from './slfgr/GeoRef';
 import addGcpActions from './slfgr/GCPActions';
 import toggleSwitch from './slfgr/ToggleSwitch';
+import gcpCrsAddOptions from './gcp-crs/__input/gcp-crs__input';
 
 const gcpMap = new slfgrMap('gcp-map');
 const worldMap = new slfgrMap('world-map');
@@ -18,6 +19,10 @@ const uploadBtnSpinner = document.querySelector('.upload-btn > .btn-spinner');
 const georefBtn = document.querySelector('.georef-btn');
 const georefBtnSpinner = georefBtn.querySelector('.btn-spinner');
 gcpMap.addControl(new Control({element: georefBtn}));
+const gcpCrs = document.querySelector('.gcp-crs');
+const gcpCrsInput = gcpCrs.querySelector('input');
+gcpMap.addControl(new Control({element: gcpCrs}));
+gcpCrsAddOptions(gcpCrsInput);
 
 const mapSwitch = new toggleSwitch(
     document.querySelector('.switch'),
@@ -81,7 +86,12 @@ slfgrGeoRef.init()
             // )).text()).split(' ');
             
             const gcps = gcpMap.gcpTable.gcps;
-            const transformedGcps = await geoRef.transformGcps(gcps, 'EPSG:32612');
+            const transformedGcps = await geoRef.transformGcps(
+                gcps, gcpCrsInput.epsgCode
+            );
+
+            console.log(gcps, transformedGcps);
+
             const geoRaster = await geoRef.byTable(
                 gcpMap.raster, transformedGcps
             );

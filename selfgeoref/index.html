@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="./switch/__viewname/switch__viewname.css">
     <link rel="stylesheet" href="./upload-btn/upload-btn.css">
     <link rel="stylesheet" href="./georef-btn/georef-btn.css">
+    <link rel="stylesheet" href="./gcp-crs/gcp-crs.css">
+    <link rel="stylesheet" href="./gcp-crs/__input/gcp-crs__input.css">
 
     <title>BuGIS WebGeoReferencer</title>
   </head>
@@ -34,8 +36,12 @@
             <span class="switch__viewname">Points view</span>
             <span class="switch__viewname">Map view</span>
         </span>
-      </label>
+    </label>
     <div id="gcp-table"></div>
+    <label class="gcp-crs btn">Points CRS
+        <input list="crs" placeholder="Select a CRS" class="gcp-crs__input" disabled>
+    </label>
+    <datalist id="crs"><option value="huh"></option></datalist>
     <script type="module" src="./main.js"></script>
   </body>
 </html>
