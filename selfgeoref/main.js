@@ -50,7 +50,7 @@ uploadBtn.addEventListener('input', function() {
         img.onload = async () => {
             console.timeLog('image', 'image loaded');
             console.timeEnd('image');
-            uploadBtnSpinner.classList.toggle('fa-spinner');
+            uploadBtn.parentElement.style.opacity = 0;
 
             const raster = new slfgrRaster(img);
             gcpMap.addSlfgrRaster(raster);
