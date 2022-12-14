@@ -71,6 +71,8 @@ slfgrGeoRef.init()
         georefBtn.addEventListener('click', async () => {
             console.time('georef');
             console.timeLog('georef', 'georef started');
+            georefBtnSpinner.classList.toggle('fa-spinner');
+            georefBtn.classList.toggle('btn_disabled');
 
             const gcps = gcpMap.gcpTable.gcps;
             const transformedGcps = await geoRef.transformGcps(
@@ -86,6 +88,9 @@ slfgrGeoRef.init()
             worldMap.addSlfgrGeoRaster(geoRaster);
 
             mapSwitch.init();
+
+            georefBtnSpinner.classList.toggle('fa-spinner');
+            georefBtn.classList.toggle('btn_disabled');
 
             console.timeLog('georef', 'georef finished');
             console.timeEnd('georef');
