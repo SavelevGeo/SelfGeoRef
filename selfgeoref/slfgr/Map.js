@@ -28,17 +28,6 @@ class slfgrMap extends Map {
         this.raster = raster; //for use on georefbtn click
     }
 
-    async addSlfgrGeoRaster(geoRaster) {
-        this.addLayer(geoRaster.layer);
-        const geoRasterView = await geoRaster.layer.getSource().getView();
-        const notRestrictedView = new View();
-        notRestrictedView.fit(geoRasterView.extent, {
-            size: this.getSize(),
-            padding: [75, 75, 75, 75]
-        });
-        this.setView(notRestrictedView);
-        document.body.appendChild(geoRaster.link);
-    }
 }
 
 export default slfgrMap

@@ -32,7 +32,7 @@ class slfgrGeoRef {
                 .flat(2)
     }
 
-    async byTable(raster,  gcps) {
+    byTable(raster,  gcps) {return new Promise( async (resolve, reject) => {
         const img_gdal = (await this.Gdal.open(raster.img.file)).datasets[0];
         const options = gcps.concat(['-of', 'GTiff', '-a_srs', raster.crs]);
 
@@ -59,8 +59,8 @@ class slfgrGeoRef {
         geoRaster.link.style.left = '55px';
         geoRaster.link.style.top = '30px';
 
-        return geoRaster
-    }
+        resolve(geoRaster)
+    })}
 
     static init() {
         const paths = {

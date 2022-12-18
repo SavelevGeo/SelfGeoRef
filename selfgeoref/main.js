@@ -1,6 +1,7 @@
 import {Tile as TileLayer} from 'ol/layer';
 import {OSM} from 'ol/source';
 import Control from 'ol/control/Control';
+import { View } from 'ol';
 
 import slfgrMap from './slfgr/Map';
 import slfgrRaster from './slfgr/Raster';
@@ -81,18 +82,27 @@ slfgrGeoRef.init()
 
             console.log(gcps, transformedGcps);
 
-            const geoRaster = await geoRef.byTable(
-                gcpMap.raster, transformedGcps
-            );
+            geoRef.byTable(gcpMap.raster, transformedGcps)
+            .then( async geoRaster => {
+                console.timeLog('georef', 'georaster ready');
+                worldMap.addLayer(geoRaster.layer);
+                console.timeLog('georef', 'georaster rendered');
+                const geoRasterView = await geoRaster.layer.getSource().getView();
+                const notRestrictedView = new View();
+                notRestrictedView.fit(geoRasterView.extent, {
+                    size: worldMap.getSize(),
+                    padding: [75, 75, 75, 75]
+                });
+                worldMap.setView(notRestrictedView);
+                document.body.appendChild(geoRaster.link);
 
-            worldMap.addSlfgrGeoRaster(geoRaster);
+                mapSwitch.init();
 
-            mapSwitch.init();
+                georefBtnSpinner.classList.toggle('fa-spinner');
+                georefBtn.classList.toggle('btn_disabled');
 
-            georefBtnSpinner.classList.toggle('fa-spinner');
-            georefBtn.classList.toggle('btn_disabled');
-
-            console.timeLog('georef', 'georef finished');
-            console.timeEnd('georef');
+                console.timeLog('georef', 'georef finished');
+                console.timeEnd('georef');
+            })
         });
 })
