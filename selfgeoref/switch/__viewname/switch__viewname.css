@@ -1,0 +1,23 @@
+.switch__viewname {
+    position: absolute;
+    display: inline-block;
+    width: 50%;
+
+    z-index: 2;
+    text-align: center;
+
+    transition: .4s;
+}
+
+.switch__viewname:last-of-type {
+    left: 50%;
+    color: white;
+}
+
+.switch__checkbox:checked + .switch__slider > .switch__viewname:last-of-type {
+    color: black;
+}
+
+.switch__checkbox:checked + .switch__slider > .switch__viewname:first-of-type {
+    color: white;
+}

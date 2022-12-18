@@ -1,0 +1,9 @@
+.gcp-crs {
+    position: absolute;
+    bottom: 25px;
+    right: 200px;
+}
+
+.gcp-crs:active {
+    background-color: #FCFCFC !important;
+}

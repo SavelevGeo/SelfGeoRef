@@ -10,7 +10,7 @@ export default function addGcpActions (map) {
     map.gcpFeatures = new Collection();
     map.gcpSource = new VectorSource({features: map.gcpFeatures});
     map.gcpStyle = {
-        'circle-stroke-color': '#1E90FF',
+        'circle-stroke-color': '#13678A',
         'circle-stroke-width': 1.25,
         'circle-radius': 5,
         'circle-fill-color': 'transparent'
@@ -73,11 +73,16 @@ export default function addGcpActions (map) {
         }
     };
 
+    map.gcpTable = new slfgrGCPTable(map);
+
     map.on('click', (e) => {
         map.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
-            if (layer === map.gcpLayer) map.toggleGcpSelection(feature);
+            if (layer === map.gcpLayer) {
+                // map.toggleGcpSelection(feature); is inculded in event listener on row selection
+                map.gcpTable.getRows().find(
+                    row => row.getData() === feature
+                ).toggleSelect();
+            }
         }, { hitTolerance: 5 });
-    });
-
-    map.addControl(new slfgrGCPTable(map));
+    });    
 }

@@ -2,17 +2,17 @@ import 'tabulator-tables/dist/css/tabulator.min.css';
 import {TabulatorFull as Tabulator} from "tabulator-tables";
 import Control from 'ol/control/Control';
 
-class slfgrGCPTabulator extends Tabulator {
+export default class slfgrGCPTable extends Tabulator {
     constructor(map) {
         super('#gcp-table', {
             layout: 'fitDataTable', reactiveData: true,
             data: map.gcpFeatures.getArray(),
             columns: [
                 {formatter: 'rowSelection', titleFormatter: 'rowSelection',
-                hozAlign: 'center', headerSort: false,
-                cellClick: (e, cell) => cell.getRow().toggleSelect()},
-                {title: 'mapX', field: 'mapX'},
-                {title: 'mapY', field: 'mapY'}
+                 hozAlign: 'center', headerSort: false,
+                 cellClick: (e, cell) => cell.getRow().toggleSelect()},
+                {title: 'mapX', field: 'mapX', editor: true},
+                {title: 'mapY', field: 'mapY', editor: true}
             ],
             rowDblClickMenu: [
                 {label: 'Delete point', action: (e, row) => row.delete()},
@@ -21,6 +21,7 @@ class slfgrGCPTabulator extends Tabulator {
                         .forEach(row => row.delete())}
             ]
         });
+        map.addControl(new Control({element: this.element}));
 
         this.on('rowDeleted', (row) => 
             map.gcpSource.removeFeature(row.getData()));
@@ -29,10 +30,13 @@ class slfgrGCPTabulator extends Tabulator {
             (row) => map.toggleGcpSelection(row.getData())
         ))
     }
-};
 
-export default class slfgrGCPTable extends Control {
-    constructor(map) {
-        super({element: (new slfgrGCPTabulator(map)).element})
+    get gcps() {
+        return this.getData().map(row => [
+            '-gcp',
+            ...row.values_.geometry.flatCoordinates.map(Math.abs).map(String),
+            row.mapX, row.mapY
+        ]).flat()
     }
-}
+};
+    

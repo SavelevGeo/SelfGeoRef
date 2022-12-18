@@ -10,7 +10,29 @@ class slfgrGeoRef {
         this.Gdal = gdal;
     }
 
-    async byTable(raster,  gcps) {
+    async transformGcps(gcps, crs) {
+        const mapXY = 
+            //from empty array with element for each gcp
+            [...Array(gcps.length / 5)].map((_,i) =>
+                //from gcps array get every third and fourth out of every five
+                [gcps[i * 5 + 3], gcps[i * 5 + 4]]
+                //convert it to integer
+                .map(e => +e)
+        );
+
+        const pseudoMercCoords = await this.Gdal.gdaltransform(mapXY, [
+            '-s_srs', crs,
+            '-t_srs', 'EPSG:3857',
+            '-output_xy'
+        ])
+        
+        return pseudoMercCoords
+                //for each coords pair take the -gcp and imageX imageY prefix
+                .map((e, i) => [gcps.slice(i * 5, i * 5 + 3), e.map(String)])
+                .flat(2)
+    }
+
+    byTable(raster,  gcps) {return new Promise( async (resolve, reject) => {
         const img_gdal = (await this.Gdal.open(raster.img.file)).datasets[0];
         const options = gcps.concat(['-of', 'GTiff', '-a_srs', raster.crs]);
 
@@ -34,10 +56,11 @@ class slfgrGeoRef {
         geoRaster.link.download = fileName;            ;
         geoRaster.link.textContent = 'Download raster';
         geoRaster.link.style.position = 'absolute';
-        geoRaster.link.style.right = '50px';
+        geoRaster.link.style.left = '55px';
+        geoRaster.link.style.top = '30px';
 
-        return geoRaster
-    }
+        resolve(geoRaster)
+    })}
 
     static init() {
         const paths = {

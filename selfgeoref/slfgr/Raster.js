@@ -1,25 +1,19 @@
 import ImageLayer from 'ol/layer/Image';
 import Static from 'ol/source/ImageStatic';
-import imgExtForMapExt from './image-extent';
 
 class slfgrRaster {
     constructor (img, crs = 'EPSG:3857') {
         this.img = img;
         this.crs = crs;
-    }
 
-    fitToExtent(mapExtent) {
-        return new ImageLayer({
+        this.extent = [0, -this.img.height, this.img.width, 0];
+        this.layer = new ImageLayer({
             title: "Diamante_1_map_area",
             source: new Static({
                 url: this.img.src,
                 projection: this.crs,
-                imageExtent: imgExtForMapExt(
-                    [this.img.width, this.img.height],
-                    mapExtent
-                )
-            }),
-            opacity: 0.7
+                imageExtent: this.extent
+            })
         })
     }
 
