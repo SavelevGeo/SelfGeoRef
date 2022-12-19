@@ -1,3 +1,2 @@
-package-lock.json
-*.qgz
-selfgeoref/slfgr/GCPActions.js
+node_modules
+*.tif
